@@ -14,13 +14,13 @@ public class ApiExceptionHandler {
           //          Create payload containing exception details
           //          return response entity
 
-          HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+          HttpStatus httpStatus = e.getHttpStatus();
           ApiException apiException = new ApiException(
                   e.getMessage(),
                   e,
-                  badRequest,
+                  httpStatus.value(),
                   ZonedDateTime.now(ZoneId.of("Z"))
           );
-          return  new ResponseEntity<>(apiException, badRequest );
+          return  new ResponseEntity<>(apiException, httpStatus );
       };
 }

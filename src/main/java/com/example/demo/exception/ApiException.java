@@ -1,19 +1,17 @@
 package com.example.demo.exception;
 
-import org.springframework.http.HttpStatus;
-
 import java.time.ZonedDateTime;
 
 public class ApiException {
     private final String message;
     private final Throwable throwable;
-    private final HttpStatus httpStatus;
+    private final int httpStatusCode;
     private final ZonedDateTime timestamp;
 
-    public ApiException(String message, Throwable throwable, HttpStatus httpStatus, ZonedDateTime timestamp) {
+    public ApiException(String message, Throwable throwable, int httpStatusCode, ZonedDateTime timestamp) {
         this.message = message;
         this.throwable = throwable;
-        this.httpStatus = httpStatus;
+        this.httpStatusCode = httpStatusCode;
         this.timestamp = timestamp;
     }
 
@@ -25,8 +23,8 @@ public class ApiException {
         return throwable;
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
+    public int getHttpStatusCode() {
+        return httpStatusCode;
     }
 
     public ZonedDateTime getTimestamp() {

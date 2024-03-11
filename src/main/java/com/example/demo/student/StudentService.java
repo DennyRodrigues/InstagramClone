@@ -2,6 +2,7 @@ package com.example.demo.student;
 
 import com.example.demo.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +38,8 @@ public class StudentService {
         boolean exists = studentRepository.existsById(studentId);
         if (!exists){
             throw  new ApiRequestException(
-                    "student with provided id " + studentId + " does not exists"
+                    "student with provided id " + studentId + " does not exists",
+                    HttpStatus.BAD_REQUEST
 
             );
         }
