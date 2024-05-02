@@ -14,11 +14,6 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 public class Comment extends Likeable {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @Builder.Default
-    private Integer likes = 0;
     private String description;
     @ManyToOne
     @JoinColumn(name = "author")

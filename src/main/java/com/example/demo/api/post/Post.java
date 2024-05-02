@@ -19,9 +19,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class Post extends Likeable {
-    @Id
-    @GeneratedValue
-    private Long id;
+
     @NotBlank
     private String title;
     @NotBlank

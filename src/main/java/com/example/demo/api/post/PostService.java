@@ -61,7 +61,6 @@ public class PostService {
         Post post = postRepository.findById(postId)
                                   .orElseThrow(() -> new ApiRequestException("Post with ID " + postId + " not found",
                                                                              HttpStatus.BAD_REQUEST));
-        post.setId(postId);
         postRepository.delete(post);
     }
 

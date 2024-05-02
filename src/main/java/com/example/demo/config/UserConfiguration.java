@@ -37,6 +37,14 @@ public class UserConfiguration {
                             .password(passwordEncoder.encode("123"))
                             .role(Role.USER)
                             .build();
+            var lucas = User.builder()
+                            .firstname("lucas")
+                            .lastname("joao")
+                            .lastname("lucas_joao")
+                            .email("lucas@gmail.com")
+                            .password(passwordEncoder.encode("1234"))
+                            .role(Role.USER)
+                            .build();
             String[] post1Images = new String[]{("img1")};
             Post post1 = Post.builder()
                              .author(david)
@@ -56,19 +64,28 @@ public class UserConfiguration {
                                      .post(post1)
                                      .description("I love the moon!!")
                                      .build();
-            UserLike userLike = UserLike.builder()
-                                        .author(david)
-                                        .item_type(LikableItemType.POST)
-                                        .likeable(post1)
-                                        .build();
+            UserLike userLike1 = UserLike.builder()
+                                         .author(david)
+                                         .item_type(LikableItemType.POST)
+                                         .likeable(post1)
+                                         .build();
+            UserLike userLike3 = UserLike.builder()
+                                         .author(david)
+                                         .item_type(LikableItemType.POST)
+                                         .likeable(comment)
+                                         .build();
+            UserLike userLike2 = UserLike.builder()
+                                         .author(lucas)
+                                         .item_type(LikableItemType.POST)
+                                         .likeable(post1)
+                                         .build();
 
             userRepository.saveAll(
-                    List.of(david)
+                    List.of(david, lucas)
             );
             postRepo.saveAll(List.of(post1, post2));
             commentRepo.saveAll(List.of(comment));
-            System.out.println(userLike);
-            userLikeRepo.saveAll(List.of(userLike));
+            userLikeRepo.saveAll(List.of(userLike1, userLike2, userLike3));
         };
     }
 }
