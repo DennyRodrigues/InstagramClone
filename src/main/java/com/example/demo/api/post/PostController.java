@@ -1,29 +1,76 @@
 package com.example.demo.api.post;
 
 import com.example.demo.api.auth.AuthenticationService;
-import com.example.demo.api.student.Student;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.example.demo.api.auth.user.CustomUserDetails;
+import com.example.demo.config.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("api/v1/post")
 @RestController
+@RequestMapping("api/v1/post")
 @RequiredArgsConstructor
+
 public class PostController {
     private final PostService postService;
     private final AuthenticationService authenticationService;
+    private JwtService jwtService;
 
     @GetMapping
-    public Optional<List<Post>> getPostsByUser(Authentication authentication) {
+    public Optional<List<Post>> getPostsByUser() {
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
+                                                                          .getAuthentication()
+                                                                          .getPrincipal();
+        System.out.println("Get Posts");
+        return postService.getPostsByUser(user.getId());
+    }
 
-        return postService.getPostsByUser(Long.valueOf(authentication.getName()));
+    @PostMapping
+    public Post createNewPost(@Valid @RequestBody PostRequest request) {
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
+                                                                          .getAuthentication()
+                                                                          .getPrincipal();
+        return postService.saveNewPost(user.getId(), request);
+    }
+
+    @Operation(summary = "Update a post")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the book",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Post.class))})})
+    @PutMapping(path = "{postId}")
+    public Post UpdatePost(@Valid @RequestBody
+                           PostRequest request, @PathVariable("postId") Long postId) {
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
+                                                                          .getAuthentication()
+                                                                          .getPrincipal();
+        return postService.updatePost(user.getId(), postId, request);
+    }
+
+    @DeleteMapping(path = "{postId}")
+    public void UpdatePost(@PathVariable("postId") Long postId) {
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
+                                                                          .getAuthentication()
+                                                                          .getPrincipal();
+        postService.deletePost(user.getId(), postId);
+    }
+
+    @GetMapping(path = "{postId}")
+    public Post getPostDetails(@PathVariable("postId") Long postId) {
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
+                                                                          .getAuthentication()
+                                                                          .getPrincipal();
+        return postService.getPostDetails(postId);
     }
 }

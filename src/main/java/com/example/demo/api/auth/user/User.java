@@ -1,14 +1,12 @@
 package com.example.demo.api.auth.user;
 
+import com.example.demo.api.post.Post;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,16 +16,20 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
-public class User implements UserDetails {
+public class User implements CustomUserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
     private Integer id;
     private String firstname;
     private String username;
     private String lastname;
     private String email;
     private String password;
+    //    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    //    private List<Post> posts = new ArrayList<>();
+
 
     @Enumerated(EnumType.STRING)
     private Role role;

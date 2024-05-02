@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.api.auth.user.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,6 +20,7 @@ public class JwtService {
 
     private static final String SECRET_KEY = "4daffefd1f8f577632184404fb6f75774249cc85f6e00b39a8762074fa2fe612";
     private static final int expirationTime = 1000 * 60 * 24;
+    private CustomUserDetails userDetails;
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -29,8 +31,8 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String extractUserId(String token) {
+        return extractClaim(token, Claims::getId);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -46,12 +48,19 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    public String generateToken(CustomUserDetails userDetails) {
+        this.userDetails = userDetails;
+        return generateToken(new HashMap<>(), userDetails);
+    }
+
     public String generateToken(
             Map<String, Object> extraclaims,
-            UserDetails userDetails
+            CustomUserDetails userDetails
     ) {
+        Map<String, Object> claims = new HashMap<>(extraclaims);
+        claims.put("userId", userDetails.getId());
         return Jwts.builder()
-                   .setClaims(extraclaims)
+                   .setClaims(claims)
                    .setSubject(userDetails.getUsername())
                    .setIssuedAt(new Date(System.currentTimeMillis()))
                    .setExpiration(new Date(System.currentTimeMillis() + expirationTime))

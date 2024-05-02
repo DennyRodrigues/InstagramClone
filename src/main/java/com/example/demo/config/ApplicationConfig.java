@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.api.auth.user.CustomUserService;
 import com.example.demo.api.auth.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,7 @@ public class ApplicationConfig {
     private final UserRepository repository;
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public CustomUserService userDetailsService() {
         return username -> repository.findByEmail(username)
                                      .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
