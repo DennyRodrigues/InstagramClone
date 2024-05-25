@@ -1,12 +1,13 @@
-import React from 'react';
+import React  from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
-
+import { Pressable, StyleSheet } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
+import { AntDesign, Entypo, Feather, Foundation, Ionicons, Octicons } from '@expo/vector-icons';
+import { View } from '@/components/Themed';
+import PlusSquare from "../../assets/icons/plus-square.svg";
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -25,35 +26,70 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
+      
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Instagram',
+          tabBarIcon: ({ color }) => <Foundation name="home" color={color} size={24} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <View style={styles.topRightContainer}>
+              <Link href="/modal" asChild>
               <Pressable>
                 {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
+                  <Octicons
+                    name="heart"
                     size={25}
                     color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />
                 )}
               </Pressable>
-            </Link>
+            </Link><Link href="/modal" asChild>
+                <Pressable>
+                  {({ pressed }) => (
+                    <AntDesign
+                      name="message1"
+                      size={25}
+                      color={Colors[colorScheme ?? 'light'].text}
+                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />
+                  )}
+                </Pressable>
+              </Link>
+              <Link href="/modal" asChild>
+                <Pressable>
+                  {({ pressed }) => (
+                    <PlusSquare
+                      width={25}
+                      height={25}
+                      color={Colors[colorScheme ?? 'light'].text}
+                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />
+                  )}
+                </Pressable>
+              </Link>
+
+            </View>
+            
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="search"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Serch',
+          tabBarIcon: ({ color }) => <Foundation name="magnifying-glass" size={20} color={color} />,
         }}
       />
     </Tabs>
   );
 }
+
+
+const styles = StyleSheet.create({
+  topRightContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
