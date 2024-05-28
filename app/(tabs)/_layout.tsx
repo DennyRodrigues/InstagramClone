@@ -1,14 +1,21 @@
 import React  from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable, StyleSheet } from 'react-native';
+import { Image, Pressable, StyleSheet } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { AntDesign, Entypo, Feather, Foundation, Ionicons, Octicons } from '@expo/vector-icons';
 import { View } from '@/components/Themed';
-import PlusSquare from "../../assets/icons/plus-square.svg";
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+import Home from '../../assets/icons/home.svg';
+import Heart from "../../assets/icons/heart.svg";
+import Message from "../../assets/icons/message.svg";
+import Add from "../../assets/icons/add.svg";
+import Profile from "../../assets/icons/profile.svg";
+import Reels from "../../assets/icons/reels.svg";
+import Search from '../../assets/icons/search.svg';
+
+
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
@@ -31,43 +38,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Instagram',
-          tabBarIcon: ({ color }) => <Foundation name="home" color={color} size={24} />,
+          title: '',
+          headerLeft: () => (
+            <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={require("../../assets/images/logo.png")} resizeMode="contain" style={{ overflow: 'hidden', width: 104, marginLeft: 14 }} />
+            </View>
+          ),
+          tabBarIcon: ({ color }) => <Home />,
           headerRight: () => (
             <View style={styles.topRightContainer}>
               <Link href="/modal" asChild>
               <Pressable>
                 {({ pressed }) => (
-                  <Octicons
-                    name="heart"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />
+                    <Heart width={28} height={28} style={{ marginRight: 24, opacity: pressed ? 0.5 : 1 }} />
                 )}
               </Pressable>
             </Link><Link href="/modal" asChild>
                 <Pressable>
                   {({ pressed }) => (
-                    <AntDesign
-                      name="message1"
-                      size={25}
-                      color={Colors[colorScheme ?? 'light'].text}
-                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />
+                    <Message width={28} height={28} style={{ marginRight: 24, opacity: pressed ? 0.5 : 1 }} />
                   )}
                 </Pressable>
               </Link>
-              <Link href="/modal" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <PlusSquare
-                      width={25}
-                      height={25}
-                      color={Colors[colorScheme ?? 'light'].text}
-                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />
-                  )}
-                </Pressable>
-              </Link>
-
             </View>
             
           ),
@@ -76,8 +68,29 @@ export default function TabLayout() {
       <Tabs.Screen
         name="search"
         options={{
-          title: 'Serch',
-          tabBarIcon: ({ color }) => <Foundation name="magnifying-glass" size={20} color={color} />,
+          title: '',
+          tabBarIcon: () => <Search />,
+        }}
+      />
+      <Tabs.Screen
+        name="addPost"
+        options={{
+          title: '',
+          tabBarIcon: () => <Add />,
+        }}
+      />
+      <Tabs.Screen
+        name="reels"
+        options={{
+          title: '',
+          tabBarIcon: () => <Reels />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: '',
+          tabBarIcon: () => <Profile />,
         }}
       />
     </Tabs>
