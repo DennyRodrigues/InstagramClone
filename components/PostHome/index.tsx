@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { ViewProps, View, StyleProp, ViewStyle, Pressable, useColorScheme, StyleSheet, Image } from 'react-native';
 import { Avatar, Button, Card, IconButton, Text } from 'react-native-paper';
-import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
-import { ThemeProp } from 'react-native-paper/lib/typescript/types';
 import MoreHorizontal from '@/assets/icons/moreHorizontal.svg';
 import Heart from '@/assets/icons/heart.svg';
 import Comment from '@/assets/icons/comments.svg';
@@ -34,7 +32,7 @@ const PostHome = () => {
           borderless
           style={{ backgroundColor: 'none', borderWidth: 0, margin: 0, }}
           icon={() => (
-            <Heart width={28} height={28} />
+            <Heart />
           )}
           onPress={() => console.log('Pressed')}
         />
@@ -42,7 +40,7 @@ const PostHome = () => {
           borderless
           style={{ backgroundColor: 'none', margin: 0, }}
           icon={() => (
-            <Comment width={28} height={28}/>
+            <Comment />
           )}
           onPress={() => console.log('Pressed')}
         />
@@ -50,7 +48,7 @@ const PostHome = () => {
           borderless
           style={{ backgroundColor: 'none', margin: 0, }}
           icon={() => (
-            <Send width={28} height={28} />
+            <Send />
           )}
           onPress={() => console.log('Pressed')}
         />
@@ -58,7 +56,7 @@ const PostHome = () => {
           borderless
           style={{ backgroundColor: 'none', margin: 0, marginLeft: "auto"}}
           icon={() => (
-            <Bookmark width={28} height={28}      />
+            <Bookmark />
           )}
           onPress={() => console.log('Pressed')}
           />

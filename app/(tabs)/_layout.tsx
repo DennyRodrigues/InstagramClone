@@ -14,6 +14,7 @@ import Add from "../../assets/icons/add.svg";
 import Profile from "../../assets/icons/profile.svg";
 import Reels from "../../assets/icons/reels.svg";
 import Search from '../../assets/icons/search.svg';
+import Menu from '@/assets/icons/menu.svg';
 
 
 function TabBarIcon(props: {
@@ -75,6 +76,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="addPost"
         options={{
+          header: () => null,
           title: '',
           tabBarIcon: () => <Add />,
         }}
@@ -87,11 +89,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        
         name="profile"
         options={{
           title: '',
           tabBarIcon: () => <Profile />,
-        }}
+        header: () => null}}
+        
       />
     </Tabs>
   );

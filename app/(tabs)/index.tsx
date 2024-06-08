@@ -1,16 +1,12 @@
 import { ScrollView, StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
-import { Appbar, Avatar } from 'react-native-paper';
 import { StoryProfile } from '@/components/StoryProfile';
 import PostHome from '@/components/PostHome';
+import { StoriesProfile } from '@/types/story';
 
 
-type StoriesProfile = {
-  id: number,
-  name: String;
-}
+
+
 export default function TabOneScreen() {
   const storiesProile: StoriesProfile[] = [{
     name: "david",
@@ -44,7 +40,7 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <ScrollView>
-      <View style={styles.mainContainer}>
+      <View>
       <ScrollView horizontal >
         <View style={styles.storiesContainer}>
 
@@ -73,17 +69,12 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: "scroll",
-  },
-  mainContainer: {
-
   },
   storiesContainer: {
     width: "auto",
     flexDirection: "row",
     gap: 20,
     height: 120,
-    overflow: "scroll",
   },
   postContainer: {
     width: "auto",
