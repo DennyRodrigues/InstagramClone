@@ -2,7 +2,8 @@ import { Camera, CameraType, CameraView, CameraViewRef, useCameraPermissions } f
 import { useRef, useState } from 'react';
 import {  StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Button } from 'react-native-paper';
+import { Button, IconButton } from 'react-native-paper';
+import { Link } from 'expo-router';
 
 export default function AddPost() {
   const [facing, setFacing] = useState<CameraType>('back') ;
@@ -72,21 +73,28 @@ export default function AddPost() {
     <View style={styles.container}>
       <View style={styles.cameraContainer} >
         <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
+        <IconButton icon="camera-flip" mode="contained" onPress={toggleCameraFacing} style={styles.flipButton} containerColor='#999'/>
       </View>
-
-      <View style={styles.buttonContainer}> 
-          <Button icon="camera" mode="contained" onPress={toggleCameraFacing}>
-            Flip Image
-          </Button>
+      <View style={styles.buttonContainer}>
           <Button icon="camera" mode="contained" onPress={takePicture}>
            Take Picture
         </Button>
-        <Button icon="camera" mode="contained" onPress={pickImage}>
-          gallery
+        <Button icon="image-multiple" mode="contained" onPress={pickImage}>
+          Gallery
         </Button>
-        </View>
+      </View>
+      <View style={styles.imageContainer}>
+        {image &&
+          <Image source={{ uri: image }} style={styles.image} />}
+      </View>
+      <View style={styles.nextButtonContainer}>
+        <Link replace asChild href={'newPost/addDescription'}>
 
-      {image && <Image source={{uri: image}} resizeMode="contain" style={{flex: 1, width: 200}} />}
+        <Button icon="arrow-right-bold" mode="contained" disabled={!image}>
+          Next
+          </Button>
+        </Link>
+      </View>
       </View>
   );
 }
@@ -99,9 +107,36 @@ const styles = StyleSheet.create({
   },
   cameraContainer: {
     flex: 1,
-    flexDirection: 'row',
+    margin: 0,
+    height: 40,
   },
   camera: {
+    flex: 1,
+    aspectRatio: 1,
+    width: '100%',
+  },
+  flipButton: {
+    width: 'auto',
+    alignSelf: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    opacity: 0.8,
+    borderRadius: 100,
+    padding: 5,
+    height: 'auto',
+    margin: 0, 
+  },
+  imageContainer: {
+    backgroundColor: "#555",
+    width: '100%',
+    height: 200,
+    alignItems : 'center',
+    justifyContent: 'center',
+  },
+  image: {
     flex: 1,
     aspectRatio: 1,
     width: '100%',
@@ -111,10 +146,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     overflow: 'hidden',
     width: "100%",
-    gap: 10,
+    gap: 20,
     flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    padding: 10, 
+  },
+  nextButtonContainer: {
+    flexDirection: 'row',
+    overflow: 'hidden',
+    width: "100%",
+    gap: 20,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    padding: 10,
   },
   text: {
     fontSize: 24,
