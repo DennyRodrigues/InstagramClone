@@ -4,12 +4,15 @@ import {  StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 're
 import * as ImagePicker from 'expo-image-picker';
 import { Button, IconButton } from 'react-native-paper';
 import { Link } from 'expo-router';
+import { usePostContext } from '@/providers/post';
 
 export default function AddPost() {
-  const [facing, setFacing] = useState<CameraType>('back') ;
+  const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
   const [image, setImage] = useState<string | null>(null);
   const cameraRef = useRef<CameraView | null>(null);
+
+  const {handleUpdateSelectedImage} = usePostContext(); 
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -42,24 +45,25 @@ export default function AddPost() {
     });
 
     console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    if (result.canceled) {
+      return;
     }
-
-    console.log(image);
+    
+    const imageUri = result.assets[0].uri;
+    handleUpdateSelectedImage(imageUri);
+    setImage(imageUri);
   };
 
   const takePicture = async () => {
     try {
       if (cameraRef?.current) {
         const data = await cameraRef.current.takePictureAsync();
-        if (data) {
-          setImage(data?.uri);
-        }
-        else {
+        if (!data) {
           throw new Error("Not able to take Picture")
         }
+        const imageUri = data?.uri;
+        setImage(imageUri);
+        handleUpdateSelectedImage(imageUri);
         console.log(data);
       }
     }
@@ -88,7 +92,7 @@ export default function AddPost() {
           <Image source={{ uri: image }} style={styles.image} />}
       </View>
       <View style={styles.nextButtonContainer}>
-        <Link replace asChild href={'newPost/addDescription'}>
+        <Link asChild href={'newPost/addDescription'}>
 
         <Button icon="arrow-right-bold" mode="contained" disabled={!image}>
           Next

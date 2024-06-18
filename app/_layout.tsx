@@ -11,6 +11,7 @@ import MoreHorizontal from "@/assets/icons/moreHorizontal.svg";
 import Heart from "@/assets/icons/heart.svg";
 import Send from "@/assets/icons/send.svg";
 import Comments from "@/assets/icons/comments.svg";
+import { PostContextProvider } from '@/providers/post';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -53,13 +54,15 @@ function RootLayoutNav() {
 
   return (
     <PaperProvider>
+      <PostContextProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="newPost" options={{ headerShown: false }} />
          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
-      </ThemeProvider>
+        </ThemeProvider>
+      </PostContextProvider>
     </PaperProvider>
   );
 }

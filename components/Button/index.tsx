@@ -3,7 +3,7 @@ import { View, useColorScheme, StyleSheet, TouchableOpacity, } from 'react-nativ
 import { Avatar, Text } from 'react-native-paper';
 
 type ButtonProps = {
-  text: String;
+  text: string;
 };
 
 

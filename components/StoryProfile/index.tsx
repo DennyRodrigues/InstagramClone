@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 
 type StoriesProfileProps = {
   id: number;
-  name: String;
+  name: string;
 };
 
 
