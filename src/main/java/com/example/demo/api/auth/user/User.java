@@ -1,6 +1,7 @@
 package com.example.demo.api.auth.user;
 
 import com.example.demo.api.post.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,7 @@ public class User implements CustomUserDetails {
     private String username;
     private String lastname;
     private String email;
+    @JsonIgnore
     private String password;
     //    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     //    private List<Post> posts = new ArrayList<>();

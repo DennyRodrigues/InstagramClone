@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-@Table
+@Table(name = "post")
 @Builder
 @AllArgsConstructor
 public class Post extends Likeable {

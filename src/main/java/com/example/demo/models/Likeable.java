@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 import java.util.List;
 
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
 public abstract class Likeable {
     @Getter

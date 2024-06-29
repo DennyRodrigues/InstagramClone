@@ -2,6 +2,7 @@ package com.example.demo.api.likes;
 
 import com.example.demo.api.auth.user.User;
 import com.example.demo.models.Likeable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,13 +24,15 @@ public class UserLike {
     @GeneratedValue
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "likable_id")
+    @JoinColumn(name = "likable_id", referencedColumnName = "id")
+    @JsonIgnore
     private Likeable likeable;
     @ManyToOne
     @JoinColumn(name = "author")
+    @JsonIgnore
     private User author;
     @CreationTimestamp
     private Date createdAt;
     @NotNull
-    private LikableItemType item_type;
+    private LikableItemType itemType;
 }

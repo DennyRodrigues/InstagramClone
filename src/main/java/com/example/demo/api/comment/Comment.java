@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @Entity
-@Table
+@Table(name = "comments")
 @Builder
 @AllArgsConstructor
 public class Comment extends Likeable {

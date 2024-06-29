@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final CustomUserService userDetailsService;
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
+    private static final String[] WHITE_LIST_URL = SecurityProperties.WHITE_LIST_URL;
 
     @Override
     protected void doFilterInternal(
@@ -31,6 +34,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        String requestPath = request.getRequestURI();
+        for (String whiteListed : WHITE_LIST_URL) {
+            if (pathMatcher.match(whiteListed, requestPath)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
+
+
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;

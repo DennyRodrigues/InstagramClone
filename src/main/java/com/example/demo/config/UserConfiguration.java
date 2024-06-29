@@ -45,7 +45,7 @@ public class UserConfiguration {
                             .password(passwordEncoder.encode("1234"))
                             .role(Role.USER)
                             .build();
-            String[] post1Images = new String[]{("img1")};
+            String[] post1Images = new String[]{"img1"};
             Post post1 = Post.builder()
                              .author(david)
                              .title("Beautiful Moon")
@@ -66,17 +66,17 @@ public class UserConfiguration {
                                      .build();
             UserLike userLike1 = UserLike.builder()
                                          .author(david)
-                                         .item_type(LikableItemType.POST)
+                                         .itemType(LikableItemType.POST)
                                          .likeable(post1)
                                          .build();
             UserLike userLike3 = UserLike.builder()
                                          .author(david)
-                                         .item_type(LikableItemType.POST)
+                                         .itemType(LikableItemType.COMMENT)
                                          .likeable(comment)
                                          .build();
             UserLike userLike2 = UserLike.builder()
                                          .author(lucas)
-                                         .item_type(LikableItemType.POST)
+                                         .itemType(LikableItemType.POST)
                                          .likeable(post1)
                                          .build();
 

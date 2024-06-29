@@ -12,6 +12,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +26,7 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter JwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**"};
+    private static final String[] WHITE_LIST_URL = SecurityProperties.WHITE_LIST_URL;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,6 +44,17 @@ public class SecurityConfiguration {
             .addFilterBefore(JwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*/"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "LIST"));
+        configuration.setAllowedHeaders(List.of("*", "content-type"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }
