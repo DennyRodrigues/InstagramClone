@@ -12,8 +12,8 @@ import { Button, Icon, TextInput } from 'react-native-paper';
 
 export default function Index() {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('david@gmail.com');
+  const [password, setPassword] = useState('123');
   const { onLogin, onRegister } = useAuth();
 
   const handleLogin = async () => {

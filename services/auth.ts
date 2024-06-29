@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios"
 
 
   
-const API_URL = "192.168.1.72/api/v1/auth/";
+const API_URL = "http://192.168.1.72:8080/api/v1/auth";
 const register = async (email: string, password: string) => {
   try {
     return await axios.post(`${API_URL}/register`)
@@ -15,8 +15,7 @@ const register = async (email: string, password: string) => {
 
 const login = async (email: string, password: string) => {
   try {
-    return await axios.get(`http://192.168.1.72:8080/api/v1/ping`);
-    return await axios.post(`${API_URL}/authenticate`, {email, password});
+    return await axios.post(`${API_URL}/authenticate`, { email, password });
   } catch  {
   }
 };

@@ -14,9 +14,7 @@ export const handleGlobalError = () => {
             error.response.status
           );
           console.error("Response data:", error.response.data);
-          alert(
-            `Login failed: ${error.response.data.message || "Unknown error"}`
-          );
+
         }
         // Axios error without a response
         else if (error.request) {
@@ -36,7 +34,7 @@ export const handleGlobalError = () => {
       return {
         success: false,
         message: error?.message,
-        status: error?.response.status,
+        status: error?.response?.status,
       };
     }
   );

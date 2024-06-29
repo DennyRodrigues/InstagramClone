@@ -5,6 +5,7 @@ import axios from 'axios';
 import { readAsStringAsync } from 'expo-file-system';
 import { createContext, useContext, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
+import { router } from 'expo-router';
 
 const TOKEN_KEY = 'my_jwt';
 type AuthContextProviderProps = {
@@ -69,6 +70,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       authenticated: true,
     })
     await SecureStore.setItemAsync(TOKEN_KEY, token)
+    router.navigate('/(authenticated)');
   }
   const handleLogout = async () => {
     axios.defaults.headers.common['Authorization'] = ''
@@ -89,15 +91,21 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   useEffect(() => {
     const loadToken = async () => {
+      console.log('loadToken')
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
+      console.log('tokem', token);
       if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         setAuthState({
           token: token,
           authenticated: true,
         })
+        router.navigate('/(authenticated)');
+
       }
     }
+    handleLogout()
+    loadToken();
   }, [])
 
   return (
