@@ -40,9 +40,9 @@ export default function Profile() {
       </View>
       <View style={styles.followedContainer}>
       <View style={styles.followedImagesContainer}>
-        <Avatar.Image size={35} source={require('../../assets/images/avatarSnuffle.png')}  />
-        <Avatar.Image size={35} source={require('../../assets/images/avatarSnuffle.png')} style={styles.followedImages} />
-        <Avatar.Image size={35} source={require('../../assets/images/avatarSnuffle.png')} style={styles.followedImages} />
+        <Avatar.Image size={35} source={require('@/assets/images/avatarSnuffle.png')}  />
+          <Avatar.Image size={35} source={require('@/assets/images/avatarSnuffle.png')} style={styles.followedImages} />
+          <Avatar.Image size={35} source={require('@/assets/images/avatarSnuffle.png')} style={styles.followedImages} />
        </View>
         <Text>Followed by username, username
           and 100 others</Text>

@@ -9,7 +9,7 @@ const Page = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={require("../../../assets/images/snuffle.png")} resizeMode="contain" style={styles.image} />
+        <Image source={require("@/assets/images/snuffle.png")} resizeMode="contain" style={styles.image} />
       </View>
       <TextInput placeholder="write a caption" contentStyle={{ backgroundColor: '#000', borderWidth: 0, height: 100 }} multiline></TextInput>
       <ButtonWithIcons text={"Add Location"} leftIcon={() =>

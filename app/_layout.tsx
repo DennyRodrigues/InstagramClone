@@ -7,11 +7,9 @@ import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { PaperProvider } from 'react-native-paper';
-import MoreHorizontal from "@/assets/icons/moreHorizontal.svg";
-import Heart from "@/assets/icons/heart.svg";
-import Send from "@/assets/icons/send.svg";
-import Comments from "@/assets/icons/comments.svg";
 import { PostContextProvider } from '@/providers/post';
+import { AuthContextProvider, useAuth } from '@/providers/auth';
+import { handleGlobalError } from '@/config/axios';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -19,11 +17,12 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: 'login',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+handleGlobalError();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -46,23 +45,34 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return <AppNavigation />;
 }
 
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
 
+const AppNavigation = () => {
+  const colorScheme = useColorScheme();
   return (
     <PaperProvider>
-      <PostContextProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="newPost" options={{ headerShown: false }} />
-         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
-        </ThemeProvider>
-      </PostContextProvider>
+        <AuthContextProvider>
+          <PostContextProvider>
+            <RootLayoutNav />
+          </PostContextProvider>
+        </AuthContextProvider>
+      </ThemeProvider>
     </PaperProvider>
+  )
+};
+
+
+function RootLayoutNav() {
+  return (
+    <Stack>
+      <Stack.Screen name="(authenticated)" options={{ headerShown: false }} />
+      <Stack.Screen name="login" options={{
+        headerShown: false,
+      }} />
+    </Stack>
   );
 }
+

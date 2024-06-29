@@ -6,14 +6,15 @@ import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { AntDesign, Entypo, Feather, Foundation, Ionicons, Octicons } from '@expo/vector-icons';
 import { View } from '@/components/Themed';
-import Home from '../../assets/icons/home.svg';
-import Heart from "../../assets/icons/heart.svg";
-import Message from "../../assets/icons/message.svg";
-import Add from "../../assets/icons/add.svg";
-import Profile from "../../assets/icons/profile.svg";
-import Reels from "../../assets/icons/reels.svg";
-import Search from '../../assets/icons/search.svg';
+import Home from '@/assets/icons/home.svg';
+import Heart from "@/assets/icons/heart.svg";
+import Message from "@/assets/icons/message.svg";
+import Add from "@/assets/icons/add.svg";
+import Profile from "@/assets/icons/profile.svg";
+import Reels from "@/assets/icons/reels.svg";
+import Search from '@/assets/icons/search.svg';
 import Menu from '@/assets/icons/menu.svg';
+import { useAuth } from '@/providers/auth';
 
 
 function TabBarIcon(props: {
@@ -25,6 +26,11 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { authState } = useAuth();
+
+  if (authState) {
+    
+  }
 
   return (
     <Tabs
@@ -40,7 +46,7 @@ export default function TabLayout() {
           title: '',
           headerLeft: () => (
             <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-              <Image source={require("../../assets/images/logo.png")} resizeMode="contain" style={{ overflow: 'hidden', width: 104, marginLeft: 14 }} />
+              <Image source={require("@/assets/images/logo.png")} resizeMode="contain" style={{ overflow: 'hidden', width: 104, marginLeft: 14 }} />
             </View>
           ),
           tabBarIcon: ({ color }) => <Home />,
