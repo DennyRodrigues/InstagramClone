@@ -7,14 +7,16 @@ const getPosts = async () => {
   try {
     return await axios.get(`${API_URL}`);
   } catch (e) {
-    console.log(e);
+       throw e;
   }
 };
 
 const createPost = async (post: PostRequest) => {
   try {
     return await axios.post(`${API_URL}`, post);
-  } catch {}
+  } catch (e) {
+       throw e;
+  }
 };
 
 export const postService = { getPosts, createPost };

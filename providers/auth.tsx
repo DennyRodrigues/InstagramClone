@@ -32,8 +32,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     token: null,
     authenticated: false
   })
-
-
   const handleRegister = async (email: string, password: string) => {
     try {
       const response = await authService.register(email, password);
@@ -48,10 +46,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         token: token,
         authenticated: true,
       })
-    } catch (error) {
-      console.log(error)
-
+    } catch (e) {
     }
+
 
 
   }
@@ -60,8 +57,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     if (!response) {
       return
     }
-    console.log(response.data)
-
     const token = response.data.token;
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

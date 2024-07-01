@@ -75,7 +75,7 @@ export default function TabOneScreen() {
 
 
           <View style={styles.postContainer}>
-            {posts.map(({ description, images, id, likesCount, }: PostResponse) => { return <PostHome likesCount={likesCount} description={description} images={images} key={id} /> })}
+            {posts && posts.map(({ description, images, id, likesCount, }: PostResponse) => { return <PostHome likesCount={likesCount} description={description} images={images} key={id} /> })}
 
           </View>
 

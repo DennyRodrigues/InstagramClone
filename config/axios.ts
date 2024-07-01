@@ -1,4 +1,7 @@
+import { AuthContext, AuthContextProvider, useAuth } from "@/providers/auth";
+import { authService } from "@/services/auth";
 import axios from "axios";
+import CustomError from "./CustomError";
 
 export const handleGlobalError = () => {
   axios.interceptors.response.use(
@@ -28,14 +31,8 @@ export const handleGlobalError = () => {
         // Non-Axios error
         console.error("Unexpected error:", error);
       }
-      console.log('error message');
-      console.log(error?.message);
-
-      return {
-        success: false,
-        message: error?.message,
-        status: error?.response?.status,
-      };
+      console.log('throw it')
+       throw new CustomError(error?.message, error?.response?.status,);
     }
   );
 };

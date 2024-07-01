@@ -1,3 +1,4 @@
+import { useHandleError } from '@/hooks/usehandleError';
 import { postService } from '@/services/post';
 import { PostRequest, PostResponse } from '@/types/post';
 import { readAsStringAsync } from 'expo-file-system';
@@ -10,7 +11,7 @@ type PostContextProviderProps = {
 type PostContextType = {
   onUpdateSelectedImage: (img: string) => void;
   onGetPosts: () => Promise<PostResponse[]>;
-  onCreatePost: (post: PostRequest) => Promise<PostResponse>;
+  onCreatePost: (description: string) => Promise<PostResponse>;
 
 
 };
@@ -18,32 +19,41 @@ type PostContextType = {
 export const PostContext = createContext({} as PostContextType);
 
 export const PostContextProvider = ({ children }: PostContextProviderProps) => {
-
+  const { onHandleError } = useHandleError();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [newPost, setNewPost] = useState<PostRequest | null>(null);
 
   const handleGetPosts = async () => {
-    const response = await postService.getPosts();
-    if (!response) {
-      return;
+    try {
+      const response = await postService.getPosts();
+      const posts = response?.data;
+
+      return posts;
+    } catch (error) {
+      onHandleError(error)
     }
-    const posts = response.data;
-    return posts;
-
-
-
   }
 
-  const handleCreatePost = async (newPost: PostRequest) => {
+  const handleCreatePost = async (description: string) => {
+    try {
+      if (!selectedImage) {
+        return;
+      }
+      const imgbase64 = await readAsStringAsync(selectedImage)
+      const newPost = { images: [], description };
+      console.log(newPost);
+      const response = await postService.createPost(newPost);
+      if (!response) {
+        return;
+      }
+      console.log(response);
+      const post = response.data;
+      return post;
 
-    const response = await postService.createPost(newPost);
-    if (!response) {
-    return;  
+    } catch (error) {
+      onHandleError(error)
     }
-    console.log(response);
-    const post = response.data;
-    return post; 
-    
+
 
   }
 

@@ -1,3 +1,4 @@
+import CustomError from "@/config/CustomError";
 import axios from "axios"
 
 
@@ -9,14 +10,15 @@ const register = async (email: string, password: string) => {
     return await axios.post(`${API_URL}/register`)
   }
   catch (e) {
-    console.log(e)
+     throw (e)
   }
 };
 
 const login = async (email: string, password: string) => {
   try {
     return await axios.post(`${API_URL}/authenticate`, { email, password });
-  } catch  {
+  } catch (e) {
+    throw e;
   }
 };
 
