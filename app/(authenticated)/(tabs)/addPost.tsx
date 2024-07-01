@@ -1,6 +1,6 @@
 import { Camera, CameraType, CameraView, CameraViewRef, useCameraPermissions } from 'expo-camera';
 import { useRef, useState } from 'react';
-import {  StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Button, IconButton } from 'react-native-paper';
 import { Link } from 'expo-router';
@@ -12,7 +12,7 @@ export default function AddPost() {
   const [image, setImage] = useState<string | null>(null);
   const cameraRef = useRef<CameraView | null>(null);
 
-  const {handleUpdateSelectedImage} = usePostContext(); 
+  const { onUpdateSelectedImage } = usePostContext();
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -48,9 +48,9 @@ export default function AddPost() {
     if (result.canceled) {
       return;
     }
-    
+
     const imageUri = result.assets[0].uri;
-    handleUpdateSelectedImage(imageUri);
+    onUpdateSelectedImage(imageUri);
     setImage(imageUri);
   };
 
@@ -63,7 +63,7 @@ export default function AddPost() {
         }
         const imageUri = data?.uri;
         setImage(imageUri);
-        handleUpdateSelectedImage(imageUri);
+        onUpdateSelectedImage(imageUri);
         console.log(data);
       }
     }
@@ -77,11 +77,11 @@ export default function AddPost() {
     <View style={styles.container}>
       <View style={styles.cameraContainer} >
         <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
-        <IconButton icon="camera-flip" mode="contained" onPress={toggleCameraFacing} style={styles.flipButton} containerColor='#999'/>
+        <IconButton icon="camera-flip" mode="contained" onPress={toggleCameraFacing} style={styles.flipButton} containerColor='#999' />
       </View>
       <View style={styles.buttonContainer}>
-          <Button icon="camera" mode="contained" onPress={takePicture}>
-           Take Picture
+        <Button icon="camera" mode="contained" onPress={takePicture}>
+          Take Picture
         </Button>
         <Button icon="image-multiple" mode="contained" onPress={pickImage}>
           Gallery
@@ -94,12 +94,12 @@ export default function AddPost() {
       <View style={styles.nextButtonContainer}>
         <Link asChild href={'newPost/addDescription'}>
 
-        <Button icon="arrow-right-bold" mode="contained" disabled={!image}>
-          Next
+          <Button icon="arrow-right-bold" mode="contained" disabled={!image}>
+            Next
           </Button>
         </Link>
       </View>
-      </View>
+    </View>
   );
 }
 
@@ -131,13 +131,13 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     padding: 5,
     height: 'auto',
-    margin: 0, 
+    margin: 0,
   },
   imageContainer: {
     backgroundColor: "#555",
     width: '100%',
     height: 200,
-    alignItems : 'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   image: {
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     gap: 20,
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    padding: 10, 
+    padding: 10,
   },
   nextButtonContainer: {
     flexDirection: 'row',

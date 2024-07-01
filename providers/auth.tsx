@@ -81,14 +81,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     await SecureStore.deleteItemAsync(TOKEN_KEY)
   }
 
-
-  const value = {
-    onRegister: handleRegister,
-    onLogin: handleLogin,
-    onLogout: handleLogout,
-    authState,
-  };
-
   useEffect(() => {
     const loadToken = async () => {
       console.log('loadToken')
@@ -104,9 +96,17 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
       }
     }
-    handleLogout()
     loadToken();
   }, [])
+
+
+  const value = {
+    onRegister: handleRegister,
+    onLogin: handleLogin,
+    onLogout: handleLogout,
+    authState,
+  };
+
 
   return (
     <AuthContext.Provider

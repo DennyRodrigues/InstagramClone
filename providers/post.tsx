@@ -1,4 +1,5 @@
-import { PostRequest } from '@/types/post';
+import { postService } from '@/services/post';
+import { PostRequest, PostResponse } from '@/types/post';
 import { readAsStringAsync } from 'expo-file-system';
 import { createContext, useContext, useState } from 'react';
 
@@ -7,8 +8,11 @@ type PostContextProviderProps = {
 };
 
 type PostContextType = {
-  handleUpdateSelectedImage: (img: string) => void; 
-  
+  onUpdateSelectedImage: (img: string) => void;
+  onGetPosts: () => Promise<PostResponse[]>;
+  onCreatePost: (post: PostRequest) => Promise<PostResponse>;
+
+
 };
 
 export const PostContext = createContext({} as PostContextType);
@@ -18,27 +22,41 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [newPost, setNewPost] = useState<PostRequest | null>(null);
 
-  const handleCreateNewPost = async (newPost: PostRequest) => {
-    let imgbase64 = ''
-    if (selectedImage) {
-      imgbase64 = await readAsStringAsync(selectedImage);
+  const handleGetPosts = async () => {
+    const response = await postService.getPosts();
+    if (!response) {
+      return;
     }
+    const posts = response.data;
+    return posts;
+
+
+
+  }
+
+  const handleCreatePost = async (newPost: PostRequest) => {
+
+    const response = await postService.createPost(newPost);
+    if (!response) {
+    return;  
+    }
+    console.log(response);
+    const post = response.data;
+    return post; 
     
 
   }
 
-  const handleUpdateNewPost = async (newPost: PostRequest) => {
-
-  }
-
   const handleUpdateSelectedImage = async (imageSrc: string) => {
-    console.log('handleUpdateSelectedImage');
     setSelectedImage(imageSrc);
     const imgbase64 = await readAsStringAsync(imageSrc)
   }
 
   const value = {
-    handleUpdateSelectedImage,
+    onUpdateSelectedImage: handleUpdateSelectedImage,
+    onGetPosts: handleGetPosts,
+    onCreatePost: handleCreatePost,
+
   };
 
   return (
