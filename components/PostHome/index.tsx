@@ -9,6 +9,7 @@ import Bookmark from '@/assets/icons/bookmark.svg';
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { PostResponse } from '@/types/post';
+import { BASE_API_URL } from '@/constants/Envs';
 
 const LeftContent = (props: any) => <Avatar.Image style={{ marginRight: 0, padding: 0 }} {...props} source={require('../../assets/images/avatarSnuffle.png')} />
 
@@ -24,10 +25,11 @@ const RightContent = (props: any) => <IconButton style={{ padding: 0, margin: 0 
 
 const PostHome = ({ description, images, id, likesCount }: PostResponse) => {
   const colorScheme = useColorScheme();
+  console.log(`${BASE_API_URL}/${images[0]}`)
   return (
     <Card style={{ backgroundColor: 'black', padding: 0, borderRadius: 0 }}>
       <Card.Title title="Snuffle" titleStyle={{ fontWeight: 700, padding: 0, marginLeft: -5 }} left={LeftContent} right={RightContent} style={{ marginLeft: 0, marginBottom: 0, paddingRight: 10 }} />
-      <Card.Cover source={require('../../assets/images/snuffle.png')} style={{ margin: 0, height: 390, resizeMode: "center", borderRadius: 0 }} />
+      <Card.Cover source={{ uri: `${BASE_API_URL}/${images[0]}` }} style={{ margin: 0, height: 390, resizeMode: "center", borderRadius: 0 }} />
       <Card.Actions style={styles.cardActions}>
         <IconButton
           borderless

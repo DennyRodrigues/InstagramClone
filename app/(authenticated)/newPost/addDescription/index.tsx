@@ -7,7 +7,7 @@ import { Button, Icon, TextInput } from "react-native-paper";
 
 const Page = () => {
 
-  const { onCreatePost } = usePostContext();
+  const { onCreatePost, selectedImage } = usePostContext();
   const [description, setDescription] = useState<string>('');
 
 
@@ -19,7 +19,7 @@ const Page = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={require("@/assets/images/snuffle.png")} resizeMode="contain" style={styles.image} />
+        <Image source={{ uri: selectedImage }} resizeMode="contain" style={styles.image} />
       </View>
       <TextInput placeholder="write a caption" contentStyle={{ backgroundColor: '#000', borderWidth: 0, height: 100 }} multiline value={description} onChangeText={setDescription}></TextInput>
       <ButtonWithIcons text={"Add Location"} leftIcon={() =>
@@ -47,12 +47,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
     marginTop: 20,
+    paddingLeft: 15, 
+    paddingRight: 15,
   },
   image: {
     overflow: 'hidden',
     width: '100%',
-    height: 300
+height: 260,
   },
 });

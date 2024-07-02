@@ -9,7 +9,8 @@ type PostContextProviderProps = {
 };
 
 type PostContextType = {
-  onUpdateSelectedImage: (img: string) => void;
+  onSelectImage: (img: string) => void;
+  selectedImage: string | null; 
   onGetPosts: () => Promise<PostResponse[]>;
   onCreatePost: (description: string) => Promise<PostResponse>;
 
@@ -33,20 +34,17 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
       onHandleError(error)
     }
   }
-
   const handleCreatePost = async (description: string) => {
     try {
       if (!selectedImage) {
         return;
       }
-      const imgbase64 = await readAsStringAsync(selectedImage)
-      const newPost = { images: [], description };
-      console.log(newPost);
+      const imgbase64 = await readAsStringAsync(selectedImage, { encoding: "base64" })
+      const newPost = { images: [imgbase64], description };
       const response = await postService.createPost(newPost);
       if (!response) {
         return;
       }
-      console.log(response);
       const post = response.data;
       return post;
 
@@ -57,13 +55,13 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
 
   }
 
-  const handleUpdateSelectedImage = async (imageSrc: string) => {
+  const handleSelectImage = async (imageSrc: string) => {
     setSelectedImage(imageSrc);
-    const imgbase64 = await readAsStringAsync(imageSrc)
   }
 
   const value = {
-    onUpdateSelectedImage: handleUpdateSelectedImage,
+    onSelectImage: handleSelectImage,
+    selectedImage,
     onGetPosts: handleGetPosts,
     onCreatePost: handleCreatePost,
 

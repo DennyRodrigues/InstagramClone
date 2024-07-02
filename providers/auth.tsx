@@ -80,7 +80,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const loadToken = async () => {
       console.log('loadToken')
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      console.log('tokem', token);
       if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         setAuthState({

@@ -41,10 +41,8 @@ export default function TabOneScreen() {
   }, {
     name: "david",
     id: 9
-  },]
-  const getPosts = async () => {
-    const posts = await onGetPosts()
-  }
+    },]
+  
   const { onGetPosts } = usePostContext();
 
   useEffect(() => {

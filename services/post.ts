@@ -1,7 +1,8 @@
+import { BASE_API_URL } from "@/constants/Envs";
 import { PostRequest } from "@/types/post";
 import axios from "axios";
 
-const API_URL = "http://192.168.1.72:8080/api/v1/post";
+const API_URL = `${BASE_API_URL}/api/v1/post`;
 
 const getPosts = async () => {
   try {

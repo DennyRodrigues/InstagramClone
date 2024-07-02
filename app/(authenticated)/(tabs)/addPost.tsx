@@ -12,7 +12,7 @@ export default function AddPost() {
   const [image, setImage] = useState<string | null>(null);
   const cameraRef = useRef<CameraView | null>(null);
 
-  const { onUpdateSelectedImage } = usePostContext();
+  const { onSelectImage: onUpdateSelectedImage } = usePostContext();
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -43,8 +43,6 @@ export default function AddPost() {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
     if (result.canceled) {
       return;
     }
@@ -64,7 +62,6 @@ export default function AddPost() {
         const imageUri = data?.uri;
         setImage(imageUri);
         onUpdateSelectedImage(imageUri);
-        console.log(data);
       }
     }
     catch (e) {
