@@ -6,16 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostRequest {
-    @NotBlank
-    private String title;
-    @NotBlank
+
     private String description;
-    private String[] images;
+    private ArrayList<String> images;
 
 
 }

@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -45,16 +46,15 @@ public class UserConfiguration {
                             .password(passwordEncoder.encode("1234"))
                             .role(Role.USER)
                             .build();
-            String[] post1Images = new String[]{"img1"};
+            ArrayList<String> post1Images = new ArrayList<String>();
+            post1Images.add("img1");
             Post post1 = Post.builder()
                              .author(david)
-                             .title("Beautiful Moon")
                              .description("White and big")
                              .images(post1Images)
                              .build();
             Post post2 = Post.builder()
                              .author(david)
-                             .title("Fearful Sun")
                              .description("A new world")
                              .images(post1Images)
                              .build();

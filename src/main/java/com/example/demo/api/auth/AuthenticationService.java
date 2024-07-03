@@ -5,7 +5,9 @@ import com.example.demo.config.JwtService;
 import com.example.demo.api.auth.user.Role;
 import com.example.demo.api.auth.user.User;
 import com.example.demo.api.auth.user.UserRepository;
+import com.example.demo.utils.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +33,8 @@ public class AuthenticationService {
         var user = User.builder()
                        .firstname(request.getFirstname())
                        .lastname(request.getLastname())
-                       .email(request.getEmail())
+                       .email(request.getEmail()
+                                     .toLowerCase())
                        .password(passwordEncoder.encode(request.getPassword()))
                        .role(Role.USER)
                        .build();
@@ -43,15 +46,22 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()));
-        var user = userRepository.findByEmail(request.getEmail())
-                                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                                     .token(jwtToken)
-                                     .build();
+        try {
+
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    request.getEmail(),
+                    request.getPassword()));
+            var user = userRepository.findByEmail(request.getEmail()
+                                                         .toLowerCase())
+                                     .orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                                         .token(jwtToken)
+                                         .build();
+        } catch (Exception ex) {
+            throw new ApiRequestException("Bad Credentials",
+                                          HttpStatus.UNAUTHORIZED);
+        }
     }
 
     public User returnUser() {

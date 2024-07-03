@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,15 +21,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Post extends Likeable {
 
-    @NotBlank
-    private String title;
-    @NotBlank
-    private String description;
+
+    private String description = "";
     @ManyToOne
     @JoinColumn(name = "author")
     @JsonIgnore // Exclude author from JSON response
     private User author;
-    private String[] images;
+    private ArrayList<String> images;
 
     @OneToMany(mappedBy = "post")
     @JsonIgnore // Exclude Comments from JSON response

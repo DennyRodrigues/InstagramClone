@@ -20,7 +20,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @Valid @RequestBody RegisterRequest request
     ) {
-        System.out.println("REGISTER REQUEST");
         return ResponseEntity.ok(service.register(request));
     }
 
