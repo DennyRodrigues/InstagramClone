@@ -2,7 +2,7 @@ import { useHandleError } from '@/hooks/usehandleError';
 import { postService } from '@/services/post';
 import { PostRequest, PostResponse } from '@/types/post';
 import { readAsStringAsync } from 'expo-file-system';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 type PostContextProviderProps = {
   children: React.ReactNode;
@@ -11,10 +11,9 @@ type PostContextProviderProps = {
 type PostContextType = {
   onSelectImage: (img: string) => void;
   selectedImage: string | null; 
-  onGetPosts: () => Promise<PostResponse[]>;
+  posts: PostResponse[];
+  onGetPosts:  () => Promise<void>;
   onCreatePost: (description: string) => Promise<PostResponse>;
-
-
 };
 
 export const PostContext = createContext({} as PostContextType);
@@ -22,18 +21,21 @@ export const PostContext = createContext({} as PostContextType);
 export const PostContextProvider = ({ children }: PostContextProviderProps) => {
   const { onHandleError } = useHandleError();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [newPost, setNewPost] = useState<PostRequest | null>(null);
+  const [posts, setPosts] = useState<PostResponse[]>([]);
 
-  const handleGetPosts = async () => {
-    try {
-      const response = await postService.getPosts();
-      const posts = response?.data;
-
-      return posts;
-    } catch (error) {
-      onHandleError(error)
-    }
-  }
+  const handleGetPosts = useCallback(
+    async () => {
+      try {
+        const response = await postService.getPosts();
+        setPosts(response?.data)
+        return;
+      } catch (error) {
+        onHandleError(error)
+      }
+    },
+    [onHandleError],
+  )
+  
   const handleCreatePost = async (description: string) => {
     try {
       if (!selectedImage) {
@@ -62,6 +64,7 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
   const value = {
     onSelectImage: handleSelectImage,
     selectedImage,
+    posts,
     onGetPosts: handleGetPosts,
     onCreatePost: handleCreatePost,
 

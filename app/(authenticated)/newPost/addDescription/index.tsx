@@ -7,19 +7,19 @@ import { Button, Icon, TextInput } from "react-native-paper";
 
 const Page = () => {
 
-  const { onCreatePost, selectedImage } = usePostContext();
+  const { onCreatePost, selectedImage, onGetPosts } = usePostContext();
   const [description, setDescription] = useState<string>('');
-
 
   const handleCreateNewPost = async () => {
     await onCreatePost(description)
+    await onGetPosts();
     router.navigate('');
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: selectedImage }} resizeMode="contain" style={styles.image} />
+        <Image source={{ uri: selectedImage ? selectedImage : "" }} resizeMode="contain" style={styles.image} />
       </View>
       <TextInput placeholder="write a caption" contentStyle={{ backgroundColor: '#000', borderWidth: 0, height: 100 }} multiline value={description} onChangeText={setDescription}></TextInput>
       <ButtonWithIcons text={"Add Location"} leftIcon={() =>

@@ -11,8 +11,6 @@ import { PostResponse } from '@/types/post';
 
 
 export default function TabOneScreen() {
-
-  const [posts, setPosts] = useState<PostResponse[]>([])
   const storiesProile: StoriesProfile[] = [{
     name: "david",
     id: 0
@@ -43,16 +41,15 @@ export default function TabOneScreen() {
     id: 9
     },]
   
-  const { onGetPosts } = usePostContext();
+  const { onGetPosts, posts } = usePostContext();
 
   useEffect(() => {
     const getPosts = async () => {
-      const posts = await onGetPosts()
-      console.log('posts', posts)
-      setPosts(posts)
+      console.log('loading posts')
+      await onGetPosts();
     }
     getPosts();
-  }, [onGetPosts])
+  }, [])
 
 
   return (
