@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Service
 public class ImageService {
-    public String uploadDirectory = "src/main/resources/static/images/";
+    public String uploadDirectory = "src/main/upload/images/";
 
     // Save image in a local directory
     public String saveImageToStorage(String imageBase64) throws IOException {
@@ -36,7 +36,7 @@ public class ImageService {
             System.out.println(e.getMessage());
         }
 
-        String outputPath = "images/" + uniqueFileName;
+        String outputPath = "upload/images/" + uniqueFileName;
         return outputPath;
     }
 
