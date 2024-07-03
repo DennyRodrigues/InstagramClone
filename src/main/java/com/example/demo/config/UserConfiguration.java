@@ -47,7 +47,7 @@ public class UserConfiguration {
                             .role(Role.USER)
                             .build();
             ArrayList<String> post1Images = new ArrayList<String>();
-            post1Images.add("img1");
+            post1Images.add("upload/images/MockImage.png");
             Post post1 = Post.builder()
                              .author(david)
                              .description("White and big")

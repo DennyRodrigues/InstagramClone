@@ -1,5 +1,6 @@
 package com.example.demo.api.post;
 
+import com.example.demo.api.auth.AuthenticationService;
 import com.example.demo.api.auth.user.User;
 import com.example.demo.api.auth.user.UserRepository;
 import com.example.demo.api.image.ImageService;
@@ -19,14 +20,16 @@ public class PostService {
     private final PostRepo postRepository;
     private final ImageService imageService;
     private final UserRepository userRepository;
+    private final AuthenticationService authenticationService;
 
     public Optional<List<Post>> getPostsByUser(Integer userId) {
         User user = userRepository.findById(userId)
                                   .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        Optional<List<Post>> posts = postRepository.getPostsByUser(user);
+        return postRepository.getPostsByUser(user);
+    }
 
-        // return Images
-        return posts;
+    public Optional<List<Post>> getAllPosts() {
+        return Optional.of(postRepository.findAll());
     }
 
     public Post saveNewPost(Integer userId, PostRequest request) {

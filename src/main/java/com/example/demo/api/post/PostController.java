@@ -28,12 +28,16 @@ public class PostController {
     private JwtService jwtService;
 
     @GetMapping
-    public Optional<List<Post>> getPostsByUser() {
+    public Optional<List<Post>> getAllPosts() {
+        return postService.getAllPosts();
+    }
+
+    @GetMapping(path = "{userId}")
+    public Optional<List<Post>> getPostsByUser(@PathVariable("userId") Integer userId) {
         CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
                                                                           .getAuthentication()
                                                                           .getPrincipal();
-        System.out.println("Get Posts");
-        return postService.getPostsByUser(user.getId());
+        return postService.getPostsByUser(userId);
     }
 
     @PostMapping
