@@ -37,6 +37,7 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
   )
   
   const handleCreatePost = async (description: string) => {
+    console.log("handleCreatePost");
     try {
       if (!selectedImage) {
         return;

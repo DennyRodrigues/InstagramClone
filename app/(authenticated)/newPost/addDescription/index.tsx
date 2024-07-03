@@ -9,10 +9,13 @@ const Page = () => {
 
   const { onCreatePost, selectedImage, onGetPosts } = usePostContext();
   const [description, setDescription] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleCreateNewPost = async () => {
+    setLoading(true);
     await onCreatePost(description)
     await onGetPosts();
+    setLoading(false);
     router.navigate('');
   }
 
@@ -29,7 +32,7 @@ const Page = () => {
       <ButtonWithIcons text={"Add Music"} leftIcon={() =>
         <Icon source="map-marker-outline" size={24} />} rightIcon={() => <Icon source="chevron-right" size={24} />} />
       <View style={{ flex: 1, marginBottom: 20, }}>
-        <Button mode="contained" onPress={() => handleCreateNewPost()}  style={{ marginTop: 'auto',}}>
+        <Button mode="contained" onPress={() => handleCreateNewPost()} loading={loading} disabled={loading} style={{ marginTop: 'auto',}}>
           Share
         </Button>
       </View>

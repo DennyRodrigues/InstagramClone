@@ -24,7 +24,6 @@ const RightContent = (props: any) => <IconButton style={{ padding: 0, margin: 0 
 />
 
 const PostHome = ({ description, images, id, likesCount }: PostResponse) => {
-  const colorScheme = useColorScheme();
   console.log(`${BASE_API_URL}/${images[0]}`)
   return (
     <Card style={{ backgroundColor: 'black', padding: 0, borderRadius: 0 }}>
