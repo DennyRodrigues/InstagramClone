@@ -64,7 +64,7 @@ public class AuthenticationService {
         }
     }
 
-    public User returnUser() {
+    public User getCurrentUser() {
         CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
                                                                           .getAuthentication()
                                                                           .getPrincipal();

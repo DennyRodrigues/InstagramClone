@@ -25,7 +25,7 @@ public class UserLikeService {
 
 
     public UserLike likePost(Long itemId) {
-        User author = authenticationService.returnUser();
+        User author = authenticationService.getCurrentUser();
         Post post = postRepo.findById(itemId)
                             .orElseThrow(() -> new ApiRequestException("Post with ID " + itemId + " not found",
                                                                        HttpStatus.BAD_REQUEST));
@@ -45,7 +45,7 @@ public class UserLikeService {
     }
 
     public UserLike deletePost(Long itemId) {
-        User author = authenticationService.returnUser();
+        User author = authenticationService.getCurrentUser();
         Post post = postRepo.findById(itemId)
                             .orElseThrow(() -> new ApiRequestException("Post with ID " + itemId + " not found",
                                                                        HttpStatus.BAD_REQUEST));
@@ -58,7 +58,7 @@ public class UserLikeService {
     }
 
     public UserLike likeComment(Long itemId) {
-        User author = authenticationService.returnUser();
+        User author = authenticationService.getCurrentUser();
         Comment comment = commentRepo.findById(itemId)
                                      .orElseThrow(() -> new ApiRequestException("Comment with ID " + itemId + " not found",
                                                                                 HttpStatus.BAD_REQUEST));
@@ -79,7 +79,7 @@ public class UserLikeService {
     }
 
     public UserLike deleteComment(Long itemId) {
-        User author = authenticationService.returnUser();
+        User author = authenticationService.getCurrentUser();
         Comment comment = commentRepo.findById(itemId)
                                      .orElseThrow(() -> new ApiRequestException("Comment with ID " + itemId + " not found",
                                                                                 HttpStatus.BAD_REQUEST));

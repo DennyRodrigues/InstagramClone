@@ -1,5 +1,6 @@
 package com.example.demo.api.auth.user;
 
+import com.example.demo.api.followers.FollowRelationship;
 import com.example.demo.api.post.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -23,15 +25,15 @@ public class User implements CustomUserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
     private Integer id;
+    @JsonIgnore
     private String firstname;
     private String username;
+    @JsonIgnore
     private String lastname;
+    @JsonIgnore
     private String email;
     @JsonIgnore
     private String password;
-    //    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
-    //    private List<Post> posts = new ArrayList<>();
-
 
     @Enumerated(EnumType.STRING)
     private Role role;
