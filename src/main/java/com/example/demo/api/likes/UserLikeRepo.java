@@ -1,6 +1,6 @@
 package com.example.demo.api.likes;
 
-import com.example.demo.api.auth.user.User;
+import com.example.demo.api.user.User;
 import com.example.demo.api.comment.Comment;
 import com.example.demo.api.post.Post;
 import com.example.demo.models.Likeable;

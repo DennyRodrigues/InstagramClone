@@ -1,6 +1,6 @@
 package com.example.demo.api.comment;
 
-import com.example.demo.api.auth.user.CustomUserDetails;
+import com.example.demo.api.user.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

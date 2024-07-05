@@ -1,14 +1,12 @@
 package com.example.demo.api.post;
 
 import com.example.demo.api.auth.AuthenticationService;
-import com.example.demo.api.auth.user.CustomUserDetails;
-import com.example.demo.api.auth.user.User;
-import com.example.demo.api.followers.FollowRelationship;
+import com.example.demo.api.user.CustomUserDetails;
+import com.example.demo.api.user.User;
 import com.example.demo.api.followers.FollowRelationshipService;
 import com.example.demo.config.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,11 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/post")

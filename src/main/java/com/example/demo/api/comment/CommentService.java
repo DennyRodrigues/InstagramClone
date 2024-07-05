@@ -1,8 +1,8 @@
 package com.example.demo.api.comment;
 
 
-import com.example.demo.api.auth.user.User;
-import com.example.demo.api.auth.user.UserRepository;
+import com.example.demo.api.user.User;
+import com.example.demo.api.user.UserRepository;
 import com.example.demo.api.post.Post;
 import com.example.demo.api.post.PostRepo;
 import com.example.demo.utils.exception.ApiRequestException;

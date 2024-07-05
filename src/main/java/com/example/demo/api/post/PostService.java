@@ -1,8 +1,8 @@
 package com.example.demo.api.post;
 
 import com.example.demo.api.auth.AuthenticationService;
-import com.example.demo.api.auth.user.User;
-import com.example.demo.api.auth.user.UserRepository;
+import com.example.demo.api.user.User;
+import com.example.demo.api.user.UserRepository;
 import com.example.demo.api.image.ImageService;
 import com.example.demo.utils.exception.ApiRequestException;
 import jakarta.validation.Valid;

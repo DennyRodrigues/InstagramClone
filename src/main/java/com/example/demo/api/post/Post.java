@@ -1,11 +1,10 @@
 package com.example.demo.api.post;
 
-import com.example.demo.api.auth.user.User;
+import com.example.demo.api.user.User;
 import com.example.demo.api.comment.Comment;
 import com.example.demo.models.Likeable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
 package com.example.demo.api.auth;
 
-import com.example.demo.api.auth.user.CustomUserDetails;
+import com.example.demo.api.user.CustomUserDetails;
 import com.example.demo.config.JwtService;
-import com.example.demo.api.auth.user.Role;
-import com.example.demo.api.auth.user.User;
-import com.example.demo.api.auth.user.UserRepository;
+import com.example.demo.api.user.Role;
+import com.example.demo.api.user.User;
+import com.example.demo.api.user.UserRepository;
 import com.example.demo.utils.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

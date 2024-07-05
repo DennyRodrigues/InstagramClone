@@ -1,6 +1,6 @@
 package com.example.demo.api.followers;
 
-import com.example.demo.api.auth.user.User;
+import com.example.demo.api.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class FollowRelationship {
     @JoinColumn(name = "follower_id", nullable = false)
     @Schema(description = "The user being followed by another user")
     private User follower;
-    
+
     @ManyToOne
     @JoinColumn(name = "following_id", nullable = false)
     @Schema(description = "The user being followed by another user")

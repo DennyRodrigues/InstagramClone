@@ -1,4 +1,4 @@
-package com.example.demo.api.auth.user;
+package com.example.demo.api.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

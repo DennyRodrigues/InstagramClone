@@ -1,4 +1,4 @@
-package com.example.demo.api.auth.user;
+package com.example.demo.api.user;
 
 
 import lombok.RequiredArgsConstructor;

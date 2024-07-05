@@ -1,6 +1,6 @@
 package com.example.demo.api.followers;
 
-import com.example.demo.api.auth.user.User;
+import com.example.demo.api.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

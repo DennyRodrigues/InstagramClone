@@ -1,8 +1,8 @@
 package com.example.demo.config;
 
-import com.example.demo.api.auth.user.Role;
-import com.example.demo.api.auth.user.User;
-import com.example.demo.api.auth.user.UserRepository;
+import com.example.demo.api.user.Role;
+import com.example.demo.api.user.User;
+import com.example.demo.api.user.UserRepository;
 import com.example.demo.api.comment.Comment;
 import com.example.demo.api.comment.CommentRepo;
 import com.example.demo.api.likes.LikableItemType;
