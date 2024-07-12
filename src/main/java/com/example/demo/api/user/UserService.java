@@ -25,8 +25,8 @@ public class UserService {
                                   .orElseThrow(() -> new ApiRequestException("User with username " + username + " not found"));
 
 
-        ArrayList<String> followers = followRelationshipService.getFollowersList(user);
-        ArrayList<String> following = followRelationshipService.getFollowingList(user);
+        ArrayList<String> followers = followRelationshipService.getUsernameFollowersList(user);
+        ArrayList<String> following = followRelationshipService.getUsernameFollowingList(user);
         UserResponse response = new UserResponse();
         response.setUsername(user.getUsername());
         response.setFollowers(followers);

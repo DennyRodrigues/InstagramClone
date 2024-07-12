@@ -24,9 +24,10 @@ public class UserLike {
     @GeneratedValue
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "likable_id", referencedColumnName = "id")
+    @JoinColumn(name = "likeable_id", referencedColumnName = "id")
     @JsonIgnore
     private Likeable likeable;
+    
     @ManyToOne
     @JoinColumn(name = "author")
     @JsonIgnore

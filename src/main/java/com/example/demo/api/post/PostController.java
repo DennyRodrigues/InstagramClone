@@ -1,9 +1,8 @@
 package com.example.demo.api.post;
 
 import com.example.demo.api.auth.AuthenticationService;
+import com.example.demo.api.post.customModels.PostWithLikesDTO;
 import com.example.demo.api.user.CustomUserDetails;
-import com.example.demo.api.user.User;
-import com.example.demo.api.followers.FollowRelationshipService;
 import com.example.demo.config.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +25,11 @@ import java.util.Optional;
 public class PostController {
     private final PostService postService;
     private final AuthenticationService authenticationService;
-    private final FollowRelationshipService followRelationshipService;
     private JwtService jwtService;
 
     @GetMapping
-    public Optional<List<Post>> getAllPosts() {
-        User currentUser = authenticationService.getCurrentUser();
-        ArrayList<String> followingList = followRelationshipService.getFollowingList(currentUser);
-        return postService.getAllPosts();
+    public List<PostWithLikesDTO> getAllPosts() throws IOException {
+        return postService.getPostsWithFollowingLikes();
     }
 
     @GetMapping(path = "{userId}")

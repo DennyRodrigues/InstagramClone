@@ -1,15 +1,25 @@
 package com.example.demo.api.post;
 
 import com.example.demo.api.auth.AuthenticationService;
+import com.example.demo.api.followers.FollowRelationshipService;
+import com.example.demo.api.post.customModels.LikeDTO;
+import com.example.demo.api.post.customModels.PostWithLikesDTO;
 import com.example.demo.api.user.User;
 import com.example.demo.api.user.UserRepository;
 import com.example.demo.api.image.ImageService;
 import com.example.demo.utils.exception.ApiRequestException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +31,7 @@ public class PostService {
     private final ImageService imageService;
     private final UserRepository userRepository;
     private final AuthenticationService authenticationService;
+    private final FollowRelationshipService followRelationshipService;
 
     public Optional<List<Post>> getPostsByUser(Integer userId) {
         User user = userRepository.findById(userId)
@@ -30,6 +41,63 @@ public class PostService {
 
     public Optional<List<Post>> getAllPosts() {
         return Optional.of(postRepository.findAll());
+    }
+
+    public List<Object[]> getPostsAndFilteredLikes(List<Integer> followingList) {
+        return postRepository.getPostsWithLikesByFollowingList(followingList);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<PostWithLikesDTO> getPostsWithFollowingLikes() throws IOException {
+        User currentUser = authenticationService.getCurrentUser();
+        ArrayList<Integer> followingList = followRelationshipService.getFollowingList(currentUser);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Object[]> results = postRepository.getPostsWithLikesByFollowingList(followingList);
+
+        List<PostWithLikesDTO> postWithLikesDTOs = new ArrayList<>();
+        for (Object[] result : results) {
+            Long postId = ((Number) result[0]).longValue();
+            byte[] imagesBytes = (byte[]) result[1];
+            String description = (String) result[2];
+            Timestamp createdAtTimestamp = (Timestamp) result[3];
+            Timestamp updatedAtTimestamp = (Timestamp) result[4];
+            ArrayList<String> imagesList = new ArrayList<>();
+
+            try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(imagesBytes))) {
+                imagesList = (ArrayList<String>) ois.readObject();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            // Parse likes JSON
+            String likesJson = (String) result[5];
+            JsonNode likesNode = objectMapper.readTree(likesJson);
+            List<LikeDTO> likes = new ArrayList<>();
+            if (likesNode.isArray()) {
+                for (JsonNode likeNode : (ArrayNode) likesNode) {
+                    Long likeId = likeNode.get("like_id")
+                                          .asLong();
+                    Long authorId = likeNode.get("author_id")
+                                            .asLong();
+                    likes.add(new LikeDTO(likeId, authorId));
+                }
+            }
+
+            PostWithLikesDTO postWithLikesDTO = new PostWithLikesDTO(
+                    postId,
+                    description,
+                    imagesList,
+                    createdAtTimestamp,
+                    updatedAtTimestamp,
+                    likes
+            );
+
+            postWithLikesDTOs.add(postWithLikesDTO);
+        }
+
+        return postWithLikesDTOs;
     }
 
     public Post saveNewPost(Integer userId, PostRequest request) {

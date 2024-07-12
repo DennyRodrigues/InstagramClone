@@ -21,13 +21,22 @@ public class FollowRelationshipService {
     private final AuthenticationService authenticationService;
     private final UserRepository userRepository;
 
-    public ArrayList<String> getFollowingList(User user) {
+    public ArrayList<String> getUsernameFollowingList(User user) {
         return followRelationshipRepo.findFollowingUsernamesByFollower(user);
     }
 
-    public ArrayList<String> getFollowersList(User user) {
+    public ArrayList<String> getUsernameFollowersList(User user) {
         return followRelationshipRepo.findFollowerUsernamesByFollowing(user);
     }
+
+    public ArrayList<Integer> getFollowingList(User user) {
+        return followRelationshipRepo.findFollowingIdByFollower(user);
+    }
+
+    public ArrayList<Integer> getFollowersList(User user) {
+        return followRelationshipRepo.findFollowingIdByFollowing(user);
+    }
+
 
     public boolean addFollow(Integer id) {
         Optional<User> following = userRepository.findById(id);
@@ -37,8 +46,6 @@ public class FollowRelationshipService {
         FollowRelationship followRelationship = new FollowRelationship();
         followRelationship.setFollower(authenticationService.getCurrentUser());
         followRelationship.setFollowing(following.get());
-        System.out.println("followRelationship");
-        System.out.println("followRelationship");
         followRelationshipRepo.save(followRelationship);
         return true;
     }
