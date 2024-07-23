@@ -1,9 +1,15 @@
+import { Profile } from '@/types/profile';
 import * as React from 'react';
 import { View, useColorScheme, StyleSheet, } from 'react-native';
 import { Avatar, Text } from 'react-native-paper';
 
 
-export const ProfileHeader = () => {
+interface ProfileHeaderProps {
+  profileInfo: Profile;
+}
+
+
+export const ProfileHeader = ({ profileInfo: {  followers, following } }: ProfileHeaderProps) => {
   const colorScheme = useColorScheme();
   return (
     <View style={styles.container}>
@@ -14,11 +20,11 @@ export const ProfileHeader = () => {
           <Text >Posts </Text>
         </View>
         <View style={styles.textInsideContainer}>
-          <Text style={{ fontWeight: 700 }}>5,678</Text>
+          <Text style={{ fontWeight: 700 }}>{followers.length}</Text>
           <Text >Followers</Text>
         </View>
         <View style={styles.textInsideContainer}>
-          <Text style={{ fontWeight: 700 }}>9,101</Text>
+          <Text style={{ fontWeight: 700 }}>{following.length}</Text>
           <Text>Following</Text>
         </View>
       </View>

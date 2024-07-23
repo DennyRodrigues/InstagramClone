@@ -6,11 +6,11 @@ const Layout = () => {
       <Stack.Screen
         name="index"
         options={{
-          headerTitle: 'New Post',
-          headerBackVisible: true, 
+          headerShown: false,
         }}
       />
     </Stack>
   );
 };
+
 export default Layout;

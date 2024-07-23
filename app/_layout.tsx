@@ -8,8 +8,9 @@ import { useEffect } from 'react';
 import { useColorScheme } from '@/components/useColorScheme';
 import { PaperProvider } from 'react-native-paper';
 import { PostContextProvider } from '@/providers/post';
-import { AuthContextProvider, useAuth } from '@/providers/auth';
+import { AuthContextProvider } from '@/providers/auth';
 import { handleGlobalError } from '@/config/axios';
+import { ProfileContextProvider } from '@/providers/profile';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -55,9 +56,11 @@ const AppNavigation = () => {
     <PaperProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthContextProvider>
-          <PostContextProvider>
-            <RootLayoutNav />
-          </PostContextProvider>
+          <ProfileContextProvider>
+            <PostContextProvider>
+              <RootLayoutNav />
+            </PostContextProvider>
+          </ProfileContextProvider>
         </AuthContextProvider>
       </ThemeProvider>
     </PaperProvider>

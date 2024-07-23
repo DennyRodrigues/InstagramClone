@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ViewProps, View, StyleProp, ViewStyle, Pressable, useColorScheme, StyleSheet, Image } from 'react-native';
-import { Avatar, Button, Card, IconButton, Text } from 'react-native-paper';
+import { ViewProps, View, StyleProp, ViewStyle, Pressable, useColorScheme, StyleSheet, Image, Touchable, TouchableOpacity } from 'react-native';
+import { Avatar, Button, Card, IconButton, Text, Title } from 'react-native-paper';
 import MoreHorizontal from '@/assets/icons/moreHorizontal.svg';
 import Heart from '@/assets/icons/heart.svg';
 import Comment from '@/assets/icons/comments.svg';
@@ -10,24 +10,33 @@ import { Ionicons, Octicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { PostResponse } from '@/types/post';
 import { BASE_API_URL } from '@/constants/Envs';
+import { router } from 'expo-router';
 
-const LeftContent = (props: any) => <Avatar.Image style={{ marginRight: 0, padding: 0 }} {...props} source={require('../../assets/images/avatarSnuffle.png')} />
+type PostHomeProps = {
+  post: PostResponse;
+};
 
 
-const RightContent = (props: any) => <IconButton style={{ padding: 0, margin: 0 }}
-  icon={({ size, color }) => (
-    <MoreHorizontal
-    />
-  )}
-  size={24}
-  onPress={() => console.log('Pressed')}
-/>
-
-const PostHome = ({ description, images, id, likesCount }: PostResponse) => {
+const PostHome = ({ post: { authorUsername, images, likesCount, description, authorProfile } }: PostHomeProps) => {
   console.log(`${BASE_API_URL}/${images[0]}`)
   return (
     <Card style={{ backgroundColor: 'black', padding: 0, borderRadius: 0 }}>
-      <Card.Title title="Snuffle" titleStyle={{ fontWeight: 700, padding: 0, marginLeft: -5 }} left={LeftContent} right={RightContent} style={{ marginLeft: 0, marginBottom: 0, paddingRight: 10 }} />
+      <View style={{ marginBottom: 5, paddingRight: 12, paddingLeft: 12, flexDirection: 'row' }}>
+          <TouchableOpacity style={{ flexDirection: 'row', marginRight: 'auto', gap: 10, alignItems: 'center' }} onPress={() => router.navigate(`/profile/${authorUsername}`)}>
+            <Avatar.Image size={32} source={require('../../assets/images/avatarSnuffle.png')} />
+            <Text style={{ fontWeight: 700, padding: 0, color: '#fff' }} >
+              {authorUsername}
+            </Text>
+          </TouchableOpacity>
+          <IconButton style={{ padding: 0, margin: 0 }}
+            icon={({ size, color }) => (
+              <MoreHorizontal
+              />
+            )}
+            size={24}
+            onPress={() => console.log('Pressed')}
+          />
+      </View>
       <Card.Cover source={{ uri: `${BASE_API_URL}/${images[0]}` }} style={{ margin: 0, height: 390, resizeMode: "center", borderRadius: 0 }} />
       <Card.Actions style={styles.cardActions}>
         <IconButton
