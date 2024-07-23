@@ -21,10 +21,14 @@ public interface PostRepo extends JpaRepository<Post, Long> {
 
     @Query(value = "SELECT " +
             "    p.id, " +
+            "    p.author, " +
+            "    u.username AS author_username, " +
+            "    u.profile_photo AS author_profile_photo, " +
             "    p.images, " +
             "    p.description, " +
             "    p.created_at, " +
             "    p.updated_at, " +
+            "    (SELECT COUNT(*) FROM user_like ul_all WHERE ul_all.likeable_id = p.id) AS likes_count, " +
             "    JSON_AGG(" +
             "        JSON_BUILD_OBJECT(" +
             "            'like_id', ul.id, " +
@@ -33,6 +37,7 @@ public interface PostRepo extends JpaRepository<Post, Long> {
             "    ) AS likes " +
             "FROM " +
             "    post p " +
+            "JOIN _user u ON p.author = u.id " +
             "LEFT JOIN (" +
             "    SELECT DISTINCT " +
             "        ul.id, " +
@@ -41,12 +46,12 @@ public interface PostRepo extends JpaRepository<Post, Long> {
             "        ul.created_at " +
             "    FROM " +
             "        user_like ul " +
-            "    JOIN _user u ON ul.author = u.id " +
+            "    JOIN _user u2 ON ul.author = u2.id " +
             "    WHERE " +
-            "        u.id IN (:followerIds)" +
+            "        u2.id IN (:followerIds)" +
             ") AS ul ON p.id = ul.likeable_id " +
             "GROUP BY " +
-            "    p.id, p.description, p.images, p.created_at, p.updated_at",
+            "    p.id, p.description, p.images, p.created_at, p.updated_at, u.username, u.profile_photo",
             nativeQuery = true)
     List<Object[]> getPostsWithLikesByFollowingList(@Param("followerIds") List<Integer> followerIds);
 }

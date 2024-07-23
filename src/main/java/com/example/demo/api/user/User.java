@@ -24,6 +24,10 @@ public class User implements CustomUserDetails {
     @JsonIgnore
     private String firstname;
     private String username;
+    @Getter
+    public String bio;
+
+    public String profile_photo = "";
     @JsonIgnore
     private String lastname;
     @JsonIgnore

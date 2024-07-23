@@ -29,6 +29,8 @@ public class UserService {
         ArrayList<String> following = followRelationshipService.getUsernameFollowingList(user);
         UserResponse response = new UserResponse();
         response.setUsername(user.getUsername());
+        response.setId(user.getId());
+        response.setBio(user.getBio());
         response.setFollowers(followers);
         response.setFollowing(following);
         return response;

@@ -13,7 +13,9 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse {
+    public Integer id;
     public String username;
+    public String bio;
     public ArrayList<String> followers;
     public ArrayList<String> following;
 }

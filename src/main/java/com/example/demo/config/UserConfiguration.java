@@ -38,6 +38,7 @@ public class UserConfiguration {
                             .lastname("joao")
                             .username("david_joao")
                             .email("david@gmail.com")
+                            .bio("GYM RAT!!")
                             .password(passwordEncoder.encode("123"))
                             .role(Role.USER)
                             .build();
@@ -46,6 +47,7 @@ public class UserConfiguration {
                             .lastname("joao")
                             .username("lucas_joao")
                             .email("lucas@gmail.com")
+                            .bio("Software Engineer, dancer and cosplay ")
                             .password(passwordEncoder.encode("1234"))
                             .role(Role.USER)
                             .build();
@@ -53,6 +55,7 @@ public class UserConfiguration {
                               .firstname("matheus")
                               .lastname("ducard")
                               .username("matheus_joao")
+                              .bio("Not a Robot")
                               .email("matheus@gmail.com")
                               .password(passwordEncoder.encode("12345"))
                               .role(Role.USER)
@@ -63,12 +66,12 @@ public class UserConfiguration {
             ArrayList<String> post1Images = new ArrayList<String>();
             post1Images.add("upload/images/MockImage.png");
             Post post1 = Post.builder()
-                             .author(david)
+                             .author(lucas)
                              .description("White and big")
                              .images(post1Images)
                              .build();
             Post post2 = Post.builder()
-                             .author(david)
+                             .author(matheus)
                              .description("A new world")
                              .images(post1Images)
                              .build();

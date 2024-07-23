@@ -58,11 +58,14 @@ public class PostService {
         List<PostWithLikesDTO> postWithLikesDTOs = new ArrayList<>();
         for (Object[] result : results) {
             Long postId = ((Number) result[0]).longValue();
-            byte[] imagesBytes = (byte[]) result[1];
-            String description = (String) result[2];
-            Timestamp createdAtTimestamp = (Timestamp) result[3];
-            Timestamp updatedAtTimestamp = (Timestamp) result[4];
-            ArrayList<String> imagesList = new ArrayList<>();
+            Long postAuthorId = ((Number) result[1]).longValue();
+            String authorUsername = (String) result[2];
+            String authorPhoto = (String) result[3];
+            byte[] imagesBytes = (byte[]) result[4];
+            String description = (String) result[5];
+            Timestamp createdAtTimestamp = (Timestamp) result[6];
+            Timestamp updatedAtTimestamp = (Timestamp) result[7];
+            ArrayList<String> imagesList;
 
             try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(imagesBytes))) {
                 imagesList = (ArrayList<String>) ois.readObject();
@@ -70,9 +73,9 @@ public class PostService {
                 throw new RuntimeException(e);
             }
 
-
+            Number likesCount = (Number) result[8];
             // Parse likes JSON
-            String likesJson = (String) result[5];
+            String likesJson = (String) result[9];
             JsonNode likesNode = objectMapper.readTree(likesJson);
             List<LikeDTO> likes = new ArrayList<>();
             if (likesNode.isArray()) {
@@ -87,15 +90,20 @@ public class PostService {
 
             PostWithLikesDTO postWithLikesDTO = new PostWithLikesDTO(
                     postId,
+                    postAuthorId,
+                    authorUsername,
+                    authorPhoto,
                     description,
                     imagesList,
                     createdAtTimestamp,
                     updatedAtTimestamp,
+                    likesCount,
                     likes
             );
 
             postWithLikesDTOs.add(postWithLikesDTO);
         }
+
 
         return postWithLikesDTOs;
     }

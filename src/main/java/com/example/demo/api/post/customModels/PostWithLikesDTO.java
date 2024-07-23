@@ -11,9 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 public class PostWithLikesDTO {
     private Long id;
+    private Long author;
+    private String authorUsername;
+    private String profilePhoto;
     private String description;
     private ArrayList<String> images;
     private Date createdAt;
     private Date updatedAt;
+    private Number likesCount;
     private List<LikeDTO> likes;
 }
