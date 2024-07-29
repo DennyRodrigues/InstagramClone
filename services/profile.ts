@@ -12,4 +12,12 @@ const getProfile = async (username: string) => {
   }
 };
 
-export const profileService = { getProfile };
+const saveNotificationToken = async (notificationToken: string) => {
+  try {
+    return await axios.post(`${API_URL}/notificationToken`, notificationToken);
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const profileService = { getProfile, saveNotificationToken };

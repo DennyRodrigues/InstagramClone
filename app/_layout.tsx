@@ -11,6 +11,7 @@ import { PostContextProvider } from '@/providers/post';
 import { AuthContextProvider } from '@/providers/auth';
 import { handleGlobalError } from '@/config/axios';
 import { ProfileContextProvider } from '@/providers/profile';
+import { usePushNotifications } from '@/hooks/useNotification';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -26,6 +27,7 @@ SplashScreen.preventAutoHideAsync();
 handleGlobalError();
 
 export default function RootLayout() {
+  
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,

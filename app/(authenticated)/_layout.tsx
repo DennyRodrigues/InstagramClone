@@ -1,9 +1,23 @@
+import { usePushNotifications } from '@/hooks/useNotification';
 import { useAuth } from '@/providers/auth';
+import { profileService } from '@/services/profile';
 import { Redirect, Stack } from 'expo-router';
+import { useEffect } from 'react';
 
 
 export default function AppLayout() {
+
   const { authState } = useAuth();
+  const { expoPushToken, notification } = usePushNotifications();
+  useEffect(() => {
+    if (!authState.authenticated) {
+      return
+    }
+    if (expoPushToken) {
+      profileService.saveNotificationToken(expoPushToken.data)
+    }
+  }, [authState.authenticated, expoPushToken])
+
 
 
   // Only require authentication within the (app) group's layout as users
