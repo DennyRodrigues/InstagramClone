@@ -22,7 +22,7 @@ public interface PostRepo extends JpaRepository<Post, Long> {
     @Query(value = "SELECT " +
             "    p.id, " +
             "    p.author, " +
-            "    u.username AS author_username, " +
+            "    u.custom_username AS author_username, " +
             "    u.profile_photo AS author_profile_photo, " +
             "    p.images, " +
             "    p.description, " +
@@ -51,7 +51,7 @@ public interface PostRepo extends JpaRepository<Post, Long> {
             "        u2.id IN (:followerIds)" +
             ") AS ul ON p.id = ul.likeable_id " +
             "GROUP BY " +
-            "    p.id, p.description, p.images, p.created_at, p.updated_at, u.username, u.profile_photo",
+            "    p.id, p.description, p.images, p.created_at, p.updated_at, u.custom_username, u.profile_photo",
             nativeQuery = true)
     List<Object[]> getPostsWithLikesByFollowingList(@Param("followerIds") List<Integer> followerIds);
 }

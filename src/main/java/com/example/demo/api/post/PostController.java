@@ -3,7 +3,9 @@ package com.example.demo.api.post;
 import com.example.demo.api.auth.AuthenticationService;
 import com.example.demo.api.post.customModels.PostWithLikesDTO;
 import com.example.demo.api.user.CustomUserDetails;
+import com.example.demo.api.user.UserService;
 import com.example.demo.config.JwtService;
+import io.github.jav.exposerversdk.PushClientException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,8 +26,6 @@ import java.util.Optional;
 
 public class PostController {
     private final PostService postService;
-    private final AuthenticationService authenticationService;
-    private JwtService jwtService;
 
     @GetMapping
     public List<PostWithLikesDTO> getAllPosts() throws IOException {
@@ -41,11 +41,8 @@ public class PostController {
     }
 
     @PostMapping
-    public Post createNewPost(@Valid @RequestBody PostRequest request) {
-        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
-                                                                          .getAuthentication()
-                                                                          .getPrincipal();
-        return postService.saveNewPost(user.getId(), request);
+    public Post createNewPost(@Valid @RequestBody PostRequest request) throws PushClientException {
+        return postService.saveNewPost(request);
     }
 
     @Operation(summary = "Update a post")

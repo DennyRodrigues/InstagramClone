@@ -1,11 +1,11 @@
 package com.example.demo.api.user;
 
 
+import com.example.demo.api.post.Post;
+import com.example.demo.api.post.PostRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -17,6 +17,11 @@ public class UserController {
     @GetMapping(path = "/{username}")
     public UserResponse getUserByUsername(@PathVariable("username") String username) {
         return userService.getUserByUsernameWithFollowers(username);
+    }
+
+    @PostMapping(path = "/notificationToken")
+    public User saveNotificationToken(@RequestBody String token) {
+        return userService.saveNotificationToken(token);
     }
 }
 

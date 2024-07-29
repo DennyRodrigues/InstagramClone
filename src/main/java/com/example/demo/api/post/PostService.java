@@ -7,10 +7,14 @@ import com.example.demo.api.post.customModels.PostWithLikesDTO;
 import com.example.demo.api.user.User;
 import com.example.demo.api.user.UserRepository;
 import com.example.demo.api.image.ImageService;
+import com.example.demo.api.user.UserService;
+import com.example.demo.api.user.projections.NotificationTokenProjection;
+import com.example.demo.notification.NotificationService;
 import com.example.demo.utils.exception.ApiRequestException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import io.github.jav.exposerversdk.PushClientException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,8 +34,10 @@ public class PostService {
     private final PostRepo postRepository;
     private final ImageService imageService;
     private final UserRepository userRepository;
+    private final UserService userService;
     private final AuthenticationService authenticationService;
     private final FollowRelationshipService followRelationshipService;
+    private final NotificationService notificationService;
 
     public Optional<List<Post>> getPostsByUser(Integer userId) {
         User user = userRepository.findById(userId)
@@ -108,9 +114,8 @@ public class PostService {
         return postWithLikesDTOs;
     }
 
-    public Post saveNewPost(Integer userId, PostRequest request) {
-        User author = userRepository.findById(userId)
-                                    .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
+    public Post saveNewPost(PostRequest request) throws PushClientException {
+        User author = authenticationService.getCurrentUser();
         Post post = new Post();
         post.setAuthor(author);
         post.setDescription(request.getDescription());
@@ -122,6 +127,13 @@ public class PostService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        //     Notify list of followers
+        List<Integer> listOfFollowers = followRelationshipService.getFollowersList(author);
+        List<NotificationTokenProjection> notificationTokenList = userService.getListOfNotificationToken(listOfFollowers);
+        String notificationTitle = author.getCustomUsername();
+        String message = author.getCustomUsername() + " Just posted a photo";
+        notificationService.sendPushNotificationToMultipleUsers(notificationTokenList, notificationTitle, message);
 
         return postRepository.save(post);
     }
