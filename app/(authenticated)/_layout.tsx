@@ -9,6 +9,7 @@ export default function AppLayout() {
 
   const { authState } = useAuth();
   const { expoPushToken, notification } = usePushNotifications();
+  
   useEffect(() => {
     if (!authState.authenticated) {
       return
