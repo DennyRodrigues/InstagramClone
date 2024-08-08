@@ -1,0 +1,19 @@
+appId: com.jacarelunar.instagramclone
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "OK" # or any other selector
+    timeout: 30000
+- tapOn: "OK"
+- tapOn:
+    id: "email-input"
+- eraseText
+- inputText: "lucas@gmail.com"
+- tapOn:
+    id: "password-input"
+- eraseText
+- inputText: "1234"
+- tapOn:
+    id: "log-in-button"
+- assertVisible: "OK"
+- tapOn: "OK"

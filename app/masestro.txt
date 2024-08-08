@@ -1,0 +1,20 @@
+ON WINDOWS:
+adb kill-server
+adb -a -P 5037 nodaemon server
+
+ON WSL:
+adb kill-server
+
+export ADB_SERVER_SOCKET=tcp:192.168.1.64:5037
+
+adb devices
+
+You should see your connected emulator successfully now.
+
+MY IP: 192.168.1.64
+maestro --host 192.168.1.64 test flow.yaml
+maestro --host 192.168.1.64 studio
+
+
+// START emulator
+emulator -avd emu

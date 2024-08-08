@@ -31,18 +31,20 @@ export default function Index() {
 
         <TextInput
           label="Email"
+          testID={"email-input"}
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           label="Password"
+          testID={"password-input"}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           right={<Icon source="eye" size={12}/>}
         />
       </View>
-      <Button mode='contained' style={{borderRadius: 4}} onPress={handleLogin}>
+      <Button mode='contained' style={{ borderRadius: 4 }} onPress={handleLogin} testID={"log-in-button"}>
         Log In
       </Button>
     </View>
