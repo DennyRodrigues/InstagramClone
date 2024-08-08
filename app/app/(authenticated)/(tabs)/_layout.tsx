@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
 import { Image, Pressable, StyleSheet } from 'react-native';
@@ -29,7 +29,7 @@ export default function TabLayout() {
   const { authState } = useAuth();
 
   if (authState) {
-    
+
   }
 
   return (
@@ -38,27 +38,29 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-      
+
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: '',
           headerLeft: () => (
-            <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Image source={require("@/assets/images/logo.png")} resizeMode="contain" style={{ overflow: 'hidden', width: 104, marginLeft: 14 }} />
             </View>
           ),
           tabBarIcon: ({ color }) => <Home />,
+          headerBackground: () => (
+            <View style={{ backgroundColor: '#000', }}></View>),
           headerRight: () => (
             <View style={styles.topRightContainer}>
               <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
+                <Pressable>
+                  {({ pressed }) => (
                     <Heart width={28} height={28} style={{ marginRight: 24, opacity: pressed ? 0.5 : 1 }} />
-                )}
-              </Pressable>
-            </Link><Link href="/modal" asChild>
+                  )}
+                </Pressable>
+              </Link><Link href="/modal" asChild>
                 <Pressable>
                   {({ pressed }) => (
                     <Message width={28} height={28} style={{ marginRight: 24, opacity: pressed ? 0.5 : 1 }} />
@@ -66,7 +68,7 @@ export default function TabLayout() {
                 </Pressable>
               </Link>
             </View>
-            
+
           ),
         }}
       />
@@ -93,13 +95,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        
+
         name="profile"
         options={{
           title: '',
           tabBarIcon: () => <Profile />,
-        header: () => null}}
-        
+          header: () => null
+        }}
+
       />
     </Tabs>
   );
@@ -109,6 +112,7 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   topRightContainer: {
     flex: 1,
+    backgroundColor: '#000',
     flexDirection: "row",
     alignItems: 'center',
     justifyContent: 'center',

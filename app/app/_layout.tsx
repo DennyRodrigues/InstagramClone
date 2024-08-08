@@ -56,7 +56,7 @@ const AppNavigation = () => {
   const colorScheme = useColorScheme();
   return (
     <PaperProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DarkTheme}>
         <AuthContextProvider>
           <ProfileContextProvider>
             <PostContextProvider>
