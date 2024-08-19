@@ -2,24 +2,26 @@ import React from 'react'
 import { Avatar, Text, withTheme } from 'react-native-paper';
 import { View } from '../Themed';
 import { StyleSheet } from 'react-native';
+import { AvatarImageSource } from 'react-native-paper/lib/typescript/components/Avatar/AvatarImage';
 
 
 
 type StoriesProfileProps = {
   id: number;
   name: string;
+  avatarImg: AvatarImageSource;
 };
 
 
-export const StoryProfile = ({ name, id }: StoriesProfileProps) => {
+export const StoryProfile = ({ name, id, avatarImg }: StoriesProfileProps) => {
   return (
     <View style={styles.container} >
-    <Avatar.Image
-      key={id}
-      size={56}
-      source={require("../../assets/images/avatar.png")}
+      <Avatar.Image
+        key={id}
+        size={56}
+        source={avatarImg}
       />
-      <Text >
+      <Text style={styles.text} >
         {name}
       </Text>
     </View>
@@ -33,4 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    color: '#fff',
+  }
 });

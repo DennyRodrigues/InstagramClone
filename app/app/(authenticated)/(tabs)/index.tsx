@@ -13,34 +13,44 @@ import { PostResponse } from '@/types/post';
 export default function TabOneScreen() {
   const storiesProile: StoriesProfile[] = [{
     name: "david",
-    id: 0
+    id: 0,
+    avatarImg: require("../../../assets/images/avatar_1.png"),
   },
   {
     id: 1,
-    name: "david"
+    name: "david",
+    avatarImg: require("../../../assets/images/avatar_2.png"),
+
   }, {
     name: "david",
-    id: 2
+    id: 2,
+    avatarImg: require("../../../assets/images/avatar_3.png"),
   }, {
     name: "david",
-    id: 3
+    id: 3,
+    avatarImg: require("../../../assets/images/avatar_4.png"),
   }, {
     name: "david",
-    id: 4
+    id: 4,
+    avatarImg: require("../../../assets/images/avatar_5.png"),
   }, {
     name: "david",
-    id: 5
+    id: 5,
+    avatarImg: require("../../../assets/images/avatar_6.png"),
   }, {
     name: "david",
-    id: 7
+    id: 7,
+    avatarImg: require("../../../assets/images/avatar_7.png"),
   }, {
     name: "david",
-    id: 8
+    id: 8,
+    avatarImg: require("../../../assets/images/avatar_8.png"),
   }, {
     name: "david",
-    id: 9
-    },]
-  
+    id: 9,
+    avatarImg: require("../../../assets/images/avatar_9.png"),
+  },]
+
   const { onGetPosts, posts } = usePostContext();
 
   useEffect(() => {
@@ -61,7 +71,7 @@ export default function TabOneScreen() {
 
 
               {storiesProile.map((profile: StoriesProfile) => {
-                return <StoryProfile key={profile.id} id={profile.id} name={profile.name} />
+                return <StoryProfile key={profile.id} id={profile.id} name={profile.name} avatarImg={profile.avatarImg} />
               })}
             </View>
 
@@ -85,6 +95,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: 'center',
     justifyContent: 'center',
+    color:'#fff'
   },
   storiesContainer: {
     width: "auto",

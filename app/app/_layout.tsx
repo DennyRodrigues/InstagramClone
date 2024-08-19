@@ -1,17 +1,16 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
-import { PaperProvider } from 'react-native-paper';
+import { MD3DarkTheme, PaperProvider } from 'react-native-paper';
 import { PostContextProvider } from '@/providers/post';
 import { AuthContextProvider } from '@/providers/auth';
 import { handleGlobalError } from '@/config/axios';
 import { ProfileContextProvider } from '@/providers/profile';
-import { usePushNotifications } from '@/hooks/useNotification';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -55,7 +54,7 @@ export default function RootLayout() {
 const AppNavigation = () => {
   const colorScheme = useColorScheme();
   return (
-    <PaperProvider>
+    <PaperProvider theme={MD3DarkTheme}>
       <ThemeProvider value={DarkTheme}>
         <AuthContextProvider>
           <ProfileContextProvider>
