@@ -33,6 +33,10 @@ public class UserConfiguration {
                                             UserLikeRepo userLikeRepo,
                                             FollowRelationshipRepo followRelationshipRepo) {
         return args -> {
+            
+            if (userRepository.count() != 0) {
+                return;
+            }
             var david = User.builder()
                             .firstname("david")
                             .lastname("joao")

@@ -51,7 +51,8 @@ public interface PostRepo extends JpaRepository<Post, Long> {
             "        u2.id IN (:followerIds)" +
             ") AS ul ON p.id = ul.likeable_id " +
             "GROUP BY " +
-            "    p.id, p.description, p.images, p.created_at, p.updated_at, u.custom_username, u.profile_photo",
+            "    p.id, p.description, p.images, p.created_at, p.updated_at, u.custom_username, u.profile_photo " +
+            "ORDER BY p.created_at DESC",  // Add this line to order by created_at
             nativeQuery = true)
     List<Object[]> getPostsWithLikesByFollowingList(@Param("followerIds") List<Integer> followerIds);
 }

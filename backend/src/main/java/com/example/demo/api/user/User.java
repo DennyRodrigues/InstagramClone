@@ -32,6 +32,7 @@ public class User implements CustomUserDetails {
     @JsonIgnore
     private String lastname;
     @JsonIgnore
+    @Column(nullable = false, unique = true)
     private String email;
     @JsonIgnore
     private String password;

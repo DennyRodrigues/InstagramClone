@@ -12,6 +12,7 @@ const getPosts = async () => {
   }
 };
 
+
 const createPost = async (post: PostRequest) => {
   try {
     return await axios.post(`${API_URL}`, post);

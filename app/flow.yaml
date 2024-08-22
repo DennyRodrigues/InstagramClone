@@ -8,7 +8,7 @@ appId: com.jacarelunar.instagramclone
 - tapOn:
     id: "email-input"
 - eraseText
-- inputText: "lucas@gmail.com"
+- inputText: ""
 - tapOn:
     id: "password-input"
 - eraseText

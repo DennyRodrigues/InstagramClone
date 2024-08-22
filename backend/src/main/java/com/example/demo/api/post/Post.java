@@ -22,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Post extends Likeable {
 
-
     private String description = "";
     @ManyToOne
     @JoinColumn(name = "author")
