@@ -19,7 +19,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -159,8 +158,7 @@ public class PostService {
                                                                                HttpStatus.BAD_REQUEST));
 
         Post post = postRepository.findById(postId)
-                                  .orElseThrow(() -> new ApiRequestException("Post with ID " + postId + " not found",
-                                                                             HttpStatus.BAD_REQUEST));
+                                  .orElseThrow(() -> new ApiRequestException("Post with ID " + postId + " not found", HttpStatus.BAD_REQUEST));
         postRepository.delete(post);
     }
 

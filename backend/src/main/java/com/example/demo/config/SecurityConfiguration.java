@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,18 +31,18 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(WHITE_LIST_URL)
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-            )
-            .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(JwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll() // Allow access to error dispatcher
+                        .requestMatchers(WHITE_LIST_URL).permitAll() 
+                        .anyRequest().authenticated() 
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 
+                )
+                .authenticationProvider(authenticationProvider) 
+                .addFilterBefore(JwtAuthFilter, UsernamePasswordAuthenticationFilter.class); 
 
         return http.build();
     }

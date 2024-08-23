@@ -12,18 +12,14 @@ import java.time.ZonedDateTime;
 public class ApiExceptionHandler {
     @ExceptionHandler(value = {ApiRequestException.class})
     public ResponseEntity<Object> handleApiRequestException(ApiRequestException e) {
-        //          Create payload containing exception details
-        //          return response entity
-
         HttpStatus httpStatus = e.getHttpStatus();
         ApiException apiException = new ApiException(
                 e.getMessage(),
                 e.getCause(),
                 httpStatus.value(),
-                ZonedDateTime.now(ZoneId.of("Z"))
+                ZonedDateTime.now(ZoneId.of("UTC"))
         );
         return new ResponseEntity<>(apiException, httpStatus);
     }
 
-    ;
 }

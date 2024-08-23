@@ -28,7 +28,7 @@ public class AuthenticationService {
         var userExists = userRepository.findByEmail(request.getEmail())
                                        .isPresent();
         if (userExists) {
-            throw new RuntimeException(new Exception("email already taken"));
+            throw new ApiRequestException("email already taken", HttpStatus.BAD_REQUEST);
         }
         var user = User.builder()
                        .firstname(request.getFirstname())
