@@ -28,11 +28,12 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public List<PostWithLikesDTO> getAllPosts() throws IOException {
-        return postService.getPostsWithFollowingLikes();
+    public List<PostWithLikesDTO> getAllPosts(
+            @RequestParam(required = false, defaultValue = "true") boolean viewed) throws IOException {
+        return postService.getPostsWithFollowingLikes(viewed);
     }
 
-    @GetMapping(path = "{userId}")
+    @GetMapping(path = "user/{userId}")
     public Optional<List<Post>> getPostsByUser(@PathVariable("userId") Integer userId) {
         CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext()
                                                                           .getAuthentication()

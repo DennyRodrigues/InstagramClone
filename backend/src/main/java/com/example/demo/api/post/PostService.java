@@ -38,27 +38,9 @@ public class PostService {
     private final FollowRelationshipService followRelationshipService;
     private final NotificationService notificationService;
 
-    public Optional<List<Post>> getPostsByUser(Integer userId) {
-        User user = userRepository.findById(userId)
-                                  .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        return postRepository.getPostsByUser(user);
-    }
 
-    public Optional<List<Post>> getAllPosts() {
-        return Optional.of(postRepository.findAll());
-    }
-
-    public List<Object[]> getPostsAndFilteredLikes(List<Integer> followingList) {
-        return postRepository.getPostsWithLikesByFollowingList(followingList);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<PostWithLikesDTO> getPostsWithFollowingLikes() throws IOException {
-        User currentUser = authenticationService.getCurrentUser();
-        ArrayList<Integer> followingList = followRelationshipService.getFollowingList(currentUser);
-
+    private List<PostWithLikesDTO> createPostsWithLikesDTO(List<Object[]> results) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Object[]> results = postRepository.getPostsWithLikesByFollowingList(followingList);
 
         List<PostWithLikesDTO> postWithLikesDTOs = new ArrayList<>();
         for (Object[] result : results) {
@@ -109,8 +91,34 @@ public class PostService {
             postWithLikesDTOs.add(postWithLikesDTO);
         }
 
-
         return postWithLikesDTOs;
+
+    }
+
+    public Optional<List<Post>> getPostsByUser(Integer userId) {
+        User user = userRepository.findById(userId)
+                                  .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        return postRepository.getPostsByUser(user);
+    }
+
+    public Optional<List<Post>> getAllPosts() {
+        return Optional.of(postRepository.findAll());
+    }
+
+    public List<Object[]> getPostsAndFilteredLikes(List<Integer> followingList) {
+        return postRepository.getPostsWithLikesByFollowingList(followingList);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<PostWithLikesDTO> getPostsWithFollowingLikes(boolean viewed) throws IOException {
+        User currentUser = authenticationService.getCurrentUser();
+        ArrayList<Integer> followingList = followRelationshipService.getFollowingList(currentUser);
+
+        List<Object[]> results = viewed
+                ? postRepository.getPostsWithLikesByFollowingList(followingList)
+                : postRepository.getPostsWithLikesByFollowingListNotViewed(followingList, currentUser.getId());
+
+        return createPostsWithLikesDTO(results);
     }
 
     public Post saveNewPost(PostRequest request) throws PushClientException {
