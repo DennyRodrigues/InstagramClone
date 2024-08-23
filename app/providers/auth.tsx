@@ -1,6 +1,6 @@
 
 import { authService } from '@/services/auth';
-import { AuthRequest } from '@/types/auth';
+import { AuthRequest, RegisterRequest } from '@/types/auth';
 import axios from 'axios';
 import { readAsStringAsync } from 'expo-file-system';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -14,7 +14,7 @@ type AuthContextProviderProps = {
 
 type AuthContextType = {
   authState: { token: string | null; authenticated: boolean };
-  onRegister: (email: string, password: string) => Promise<any>;
+  onRegister: (registerRequest: RegisterRequest) => Promise<any>;
   onLogin: (email: string, password: string) => Promise<any>;
   onLogout: () => Promise<any>;
 
@@ -32,31 +32,34 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     token: null,
     authenticated: false
   })
-  const handleRegister = async (email: string, password: string) => {
+
+  const handleRegister = async (userData: RegisterRequest) => {
     try {
-      const response = await authService.register(email, password);
-      if (!response) {
-        return
-      }
+      const response = await authService.register(userData);
+
+      console.log(response)
 
       const token = response.data.token;
 
+      await SecureStore.setItemAsync(TOKEN_KEY, token);
+
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
       setAuthState({
         token: token,
         authenticated: true,
-      })
-    } catch (e) {
+      });
+      router.navigate('/(authenticated)');
+    } catch (error) {
+      console.log("handleRegister failed");
+      throw error;
     }
-
-
-
-  }
+  };
   const handleLogin = async (email: string, password: string) => {
+    try {
+      
+  
     const response = await authService.login(email, password);
-    if (!response) {
-      return
-    }
     const token = response.data.token;
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -65,8 +68,13 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       authenticated: true,
     })
     await SecureStore.setItemAsync(TOKEN_KEY, token)
-    router.navigate('/(authenticated)');
+      router.replace('/(authenticated)');
+    } catch (error) {
+      console.log("handleLogin failed");
+      throw error;
+    }
   }
+  
   const handleLogout = async () => {
     axios.defaults.headers.common['Authorization'] = ''
     setAuthState({
@@ -86,11 +94,11 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
           token: token,
           authenticated: true,
         })
-        router.navigate('/(authenticated)');
+        router.replace('/(authenticated)');
 
       }
     }
-    loadToken();
+    // loadToken();
   }, [])
 
 
@@ -112,7 +120,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 };
 
 
-// Custom hook to use the Auth context
+
 export const useAuth = (): AuthContextType => {
 
   const context = useContext(AuthContext);

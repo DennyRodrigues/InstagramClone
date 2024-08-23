@@ -16,7 +16,11 @@ export const handleGlobalError = () => {
             "Server responded with a status:",
             error.response.status
           );
-          console.error("Response data:", error.response.data);
+          console.error("Response data:", error.response?.data?.message);
+          throw new CustomError(
+            error.response?.data?.message,
+            error?.response?.data?.status
+          );
 
         }
         // Axios error without a response
@@ -31,7 +35,6 @@ export const handleGlobalError = () => {
         // Non-Axios error
         console.error("Unexpected error:", error);
       }
-      console.log('throw it')
        throw new CustomError(error?.message, error?.response?.status,);
     }
   );

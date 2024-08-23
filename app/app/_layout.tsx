@@ -11,6 +11,7 @@ import { PostContextProvider } from '@/providers/post';
 import { AuthContextProvider } from '@/providers/auth';
 import { handleGlobalError } from '@/config/axios';
 import { ProfileContextProvider } from '@/providers/profile';
+import { ErrorProvider } from '@/providers/error';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -26,7 +27,7 @@ SplashScreen.preventAutoHideAsync();
 handleGlobalError();
 
 export default function RootLayout() {
-  
+
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -56,13 +57,15 @@ const AppNavigation = () => {
   return (
     <PaperProvider theme={MD3DarkTheme}>
       <ThemeProvider value={DarkTheme}>
-        <AuthContextProvider>
-          <ProfileContextProvider>
-            <PostContextProvider>
-              <RootLayoutNav />
-            </PostContextProvider>
-          </ProfileContextProvider>
-        </AuthContextProvider>
+        <ErrorProvider>
+          <AuthContextProvider>
+            <ProfileContextProvider>
+              <PostContextProvider>
+                <RootLayoutNav />
+              </PostContextProvider>
+            </ProfileContextProvider>
+          </AuthContextProvider>
+        </ErrorProvider>
       </ThemeProvider>
     </PaperProvider>
   )
@@ -73,7 +76,7 @@ function RootLayoutNav() {
   return (
     <Stack>
       <Stack.Screen name="(authenticated)" options={{ headerShown: false }} />
-      <Stack.Screen name="login" options={{
+      <Stack.Screen name="onboarding" options={{
         headerShown: false,
       }} />
     </Stack>

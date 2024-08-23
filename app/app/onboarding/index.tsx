@@ -1,23 +1,37 @@
 import { Image, ScrollView, StyleSheet } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import {  View } from '@/components/Themed';
 import { StoryProfile } from '@/components/StoryProfile';
 import PostHome from '@/components/PostHome';
 import { StoriesProfile } from '@/types/story';
 import { useState } from 'react';
 import { useAuth } from '@/providers/auth';
-import { Button, Icon, TextInput } from 'react-native-paper';
+import { Button, Icon, Text, TextInput } from 'react-native-paper';
+import { Link, router } from 'expo-router';
+import { useError } from '@/providers/error';
+import { CustomErrorType } from '@/config/CustomError';
 
 
 
 
 export default function Index() {
-
+  const { showError } = useError();
+  const { onLogin, } = useAuth();
   const [email, setEmail] = useState('david@gmail.com');
   const [password, setPassword] = useState('123');
-  const { onLogin, onRegister } = useAuth();
 
   const handleLogin = async () => {
-    onLogin(email, password)
+    try {
+      await onLogin(email, password)
+    } catch (e: any) {
+      const error: CustomErrorType = e;
+      const errorMessage = error.message;
+      if (errorMessage.includes('Bad Credentials')) {
+        showError('Bad Credentials. Email or password are incorrect.');
+      } else {
+        showError(`Login failed. Please try again, error message: ${errorMessage}`);
+      }
+    }
+
   }
 
 
@@ -46,6 +60,9 @@ export default function Index() {
       </View>
       <Button mode='contained' style={{ borderRadius: 4 }} onPress={handleLogin} testID={"log-in-button"}>
         Log In
+      </Button>
+      <Button style={{ borderRadius: 4 }} onPress={() => router.push('onboarding/register')} testID={"sign-up-button"}>
+          Sign Up
       </Button>
     </View>
   );

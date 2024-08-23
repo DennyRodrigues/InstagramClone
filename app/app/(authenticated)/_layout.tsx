@@ -26,7 +26,7 @@ export default function AppLayout() {
   if (!authState.authenticated) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
-    return <Redirect href="/login" />;
+    return <Redirect href="/onboarding" />;
   }
 
   // This layout can be deferred because it's not the root layout.
@@ -40,7 +40,6 @@ function AuthenticatedApp() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="newPost" options={{ headerShown: false }} />
       <Stack.Screen name="profile" options={{ headerShown: false }} />
-      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
     </Stack>
   );
 }
