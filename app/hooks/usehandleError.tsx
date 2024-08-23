@@ -9,6 +9,7 @@ const isCustomErrorType = (error: unknown): error is CustomErrorType => {
 export const useHandleError = () => {
   const { onLogout } = useAuth();
   const onHandleError = (error: unknown) => {
+    console.log("useHandleError error=",error)
     // Only handle errors that have status code, otherwise return nothing 
     if (!isCustomErrorType(error)) {
       console.log(error);
@@ -16,7 +17,12 @@ export const useHandleError = () => {
     };
     if (error.status === 403) {
       onLogout();
+      return;
     };
+    if (error.message.includes("JWT expired")) {
+      onLogout();
+      return
+    }
   }
   return { onHandleError };
 }
