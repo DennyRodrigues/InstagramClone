@@ -12,7 +12,7 @@ import java.util.List;
 public class ItemViewedController {
     private final ItemViewedService itemViewedService;
 
-    @PostMapping(path = "/post/")
+    @PostMapping(path = "/post")
     public List<ItemViewed> markPostsAsSeen(@RequestBody ItemViewedRequest listOfPost) throws IOException {
         return itemViewedService.markPostsAsSeen(listOfPost);
     }

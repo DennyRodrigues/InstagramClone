@@ -6,6 +6,7 @@ import { StoriesProfile } from '@/types/story';
 import { usePostContext } from '@/providers/post';
 import { useEffect, useState } from 'react';
 import { PostResponse } from '@/types/post';
+import { IOScrollView } from 'react-native-intersection-observer';
 
 
 
@@ -64,7 +65,7 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <IOScrollView >
         <View>
           <ScrollView horizontal >
             <View style={styles.storiesContainer}>
@@ -85,7 +86,7 @@ export default function TabOneScreen() {
           </View>
 
         </View>
-      </ScrollView>
+      </IOScrollView>
     </View>
   );
 }

@@ -98,7 +98,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
       }
     }
-    // loadToken();
+    loadToken();
   }, [])
 
 

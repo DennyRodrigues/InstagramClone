@@ -6,6 +6,6 @@ export interface PostRequest {
 export interface PostResponse extends PostRequest {
   authorUsername: string;
   authorProfile: string;
-  id?: string;
+  id: number;
   likesCount: number;
 }

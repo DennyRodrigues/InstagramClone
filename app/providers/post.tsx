@@ -2,7 +2,7 @@ import { useHandleError } from '@/hooks/usehandleError';
 import { postService } from '@/services/post';
 import { PostRequest, PostResponse } from '@/types/post';
 import { readAsStringAsync } from 'expo-file-system';
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 type PostContextProviderProps = {
   children: React.ReactNode;
@@ -10,10 +10,11 @@ type PostContextProviderProps = {
 
 type PostContextType = {
   onSelectImage: (img: string) => void;
-  selectedImage: string | null; 
+  selectedImage: string | null;
   posts: PostResponse[];
-  onGetPosts:  () => Promise<void>;
+  onGetPosts: () => Promise<void>;
   onCreatePost: (description: string) => Promise<PostResponse>;
+  addViewedPosts: (postId: number) => void;
 };
 
 export const PostContext = createContext({} as PostContextType);
@@ -22,10 +23,18 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
   const { onHandleError } = useHandleError();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [posts, setPosts] = useState<PostResponse[]>([]);
+  const [viewedPosts, setViewedPosts] = useState<number[]>([]);
 
+  useEffect(() => {
+    if (viewedPosts.length > 5) {
+      handleMarkPostsAsSeen();
+    }
+  }, [viewedPosts])
+  
   const handleGetPosts = useCallback(
     async () => {
       try {
+        await handleMarkPostsAsSeen();
         const response = await postService.getPosts();
         setPosts(response?.data)
         return;
@@ -35,7 +44,22 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
     },
     [onHandleError],
   )
-  
+
+  const handleMarkPostsAsSeen = useCallback(
+    async () => {
+      try {
+        if (viewedPosts.length) {
+          const response = await postService.markPostAsViewed(viewedPosts);
+          setViewedPosts([]);
+         }
+        return;
+      } catch (error) {
+        onHandleError(error)
+      }
+    },
+    [onHandleError],
+  )
+
   const handleCreatePost = async (description: string) => {
     console.log("handleCreatePost");
     try {
@@ -54,8 +78,11 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
     } catch (error) {
       onHandleError(error)
     }
+  }
 
 
+  const addViewedPosts = async (postId: number) => {
+    setViewedPosts((prevState) => [...prevState, postId]);
   }
 
   const handleSelectImage = async (imageSrc: string) => {
@@ -68,7 +95,7 @@ export const PostContextProvider = ({ children }: PostContextProviderProps) => {
     posts,
     onGetPosts: handleGetPosts,
     onCreatePost: handleCreatePost,
-
+    addViewedPosts,
   };
 
   return (

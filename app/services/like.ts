@@ -19,4 +19,4 @@ const removeLike = async (type: LikesType, id: string) => {
     throw e;
   }
 };
-export const postService = { addLike, removeLike };
+export const likeService = { addLike, removeLike };
