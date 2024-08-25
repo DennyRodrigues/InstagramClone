@@ -10,7 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,23 +20,22 @@ public class ItemViewedService {
         private final AuthenticationService authenticationService;
         private final PostRepo postRepository;
 
-    public ItemViewed markPostAsSeen(Long postId) {
+    public List<ItemViewed> markPostsAsSeen(ItemViewedRequest request) {
+        List<Long> items =  request.items;
+        if(items.isEmpty()){
+            throw new ApiRequestException("List of Items was empty", HttpStatus.BAD_REQUEST);
+        }
         User author = authenticationService.getCurrentUser();
-        Optional<Post> postOptional = postRepository.findById(postId);
-        if(postOptional.isEmpty()){
-            throw new ApiRequestException("Post with id: " + postId + " doesn't exist.", HttpStatus.BAD_REQUEST);
+        List<Post> postOptional = postRepository.findAllById(items);
+        ArrayList<ItemViewed> markAsViewedList = new ArrayList<>();
+        for (Post post : postOptional){
+            ItemViewed itemViewed = new ItemViewed();
+            itemViewed.setAuthor(author);
+            itemViewed.setItemType(ItemType.POST);
+            itemViewed.setLikeable(post);
+            markAsViewedList.add(itemViewed);
         }
-        Post post = postOptional.get();
-        boolean alreadyViewed = itemViewedRepo.existsByAuthorAndLikeable(author, postRepository.getReferenceById(postId));
-        if (alreadyViewed) {
-            throw new ApiRequestException("Post has already been viewed by this user.", HttpStatus.CONFLICT);
-        }
-
-        ItemViewed itemViewed = new ItemViewed();
-        itemViewed.setAuthor(author);
-        itemViewed.setItemType(ItemType.POST);
-        itemViewed.setLikeable(post);
-        return itemViewedRepo.save(itemViewed);
+        return itemViewedRepo.saveAll(markAsViewedList);
     }
 
 }
