@@ -13,7 +13,9 @@ const getProfile = async (username: string) => {
 
 const saveNotificationToken = async (notificationToken: string) => {
   try {
-    return await axios.post(`${API_URL}/notificationToken`, notificationToken);
+    return await axios.post(`${API_URL}/notificationToken`, notificationToken, {
+      headers: { "Content-Type": "text/plain" },
+    });
   } catch (e) {
     throw e;
   }

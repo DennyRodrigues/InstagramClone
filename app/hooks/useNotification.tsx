@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-
 import Constants from "expo-constants";
 
 import { Platform } from "react-native";
+import { profileService } from "@/services/profile";
 
 export interface PushNotificationState {
   expoPushToken?: Notifications.ExpoPushToken;
@@ -35,8 +35,9 @@ export const usePushNotifications = (): PushNotificationState => {
     let token;
     if (Device.isDevice) {
       const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
+      await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
+
 
       if (existingStatus !== "granted") {
         const { status } = await Notifications.requestPermissionsAsync();
@@ -46,10 +47,13 @@ export const usePushNotifications = (): PushNotificationState => {
         alert("Failed to get push token for push notification");
         return;
       }
-
       token = await Notifications.getExpoPushTokenAsync({
         projectId: Constants.expoConfig?.extra?.eas.projectId,
       });
+      if (expoPushToken) {
+        await profileService.saveNotificationToken(expoPushToken.data)
+      }
+
     } else {
       alert("Must be using a physical device for Push notifications");
     }

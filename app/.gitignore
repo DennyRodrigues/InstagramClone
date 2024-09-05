@@ -73,3 +73,4 @@ yarn-error.*
 expo-env.d.ts
 # @end expo-cli
 google-services.json
+instagramclone-private_key.json
