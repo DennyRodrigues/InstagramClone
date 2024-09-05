@@ -9,3 +9,8 @@ export interface PostResponse extends PostRequest {
   id: number;
   likesCount: number;
 }
+
+
+export type onGetPostsFlags = {
+  loadOldPosts: boolean;
+};

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { StoryProfile } from '@/components/StoryProfile';
 import PostHome from '@/components/PostHome';
@@ -52,39 +52,80 @@ export default function TabOneScreen() {
     avatarImg: require("../../../assets/images/avatar_9.png"),
   },]
 
-  const { onGetPosts, posts } = usePostContext();
+  const { onGetPosts, posts, isShowingOldPosts, setIsShowingOldPosts } = usePostContext();
+  const [isLoadingPosts, setIsLoadingPosts] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {
-      console.log('loading posts')
-      await onGetPosts();
-    }
+      await onGetPosts({ loadOldPosts: isShowingOldPosts });
+    };
     getPosts();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+  }, [posts])
+
+
+  const handleLoadOlderPosts = async () => {
+    setIsShowingOldPosts(true)
+    setIsLoadingPosts(true);
+    await onGetPosts({ loadOldPosts: true });
+    setIsLoadingPosts(false);
+  };
+
+  const renderLoadMoreButton = () => {
+    if (posts.length === 0 && !isShowingOldPosts) {
+      return (
+        <TouchableOpacity onPress={handleLoadOlderPosts} disabled={isLoadingPosts} style={styles.loadMoreButton}>
+          <Text style={styles.loadMoreText}>
+            No new posts available. Load older posts?
+          </Text>
+        </TouchableOpacity>
+      );
+    } else if (isShowingOldPosts) {
+      return (
+        <Text style={styles.noPostsText}>No more posts available</Text>
+      );
+    }
+    return null;
+  };
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
+    const isNearBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+
+    if (isNearBottom) {
+      console.log('Reached near the bottom of the list');
+    }
+  };
+
 
 
   return (
     <View style={styles.container}>
-      <IOScrollView >
+      <IOScrollView onScroll={handleScroll} scrollEventThrottle={16}>
         <View>
           <ScrollView horizontal >
             <View style={styles.storiesContainer}>
-
-
               {storiesProile.map((profile: StoriesProfile) => {
                 return <StoryProfile key={profile.id} id={profile.id} name={profile.name} avatarImg={profile.avatarImg} />
               })}
             </View>
-
           </ScrollView>
 
-
-
           <View style={styles.postContainer}>
-            {posts && posts.map((post: PostResponse) => { return <PostHome post={post} key={post?.id} /> })}
-
+            {isLoadingPosts ? (
+              <ActivityIndicator />
+            ) : (
+              <>
+                {posts && posts.map((post: PostResponse) => (
+                  <PostHome post={post} key={post?.id} />
+                ))}
+                {renderLoadMoreButton()}
+              </>
+            )}
           </View>
-
         </View>
       </IOScrollView>
     </View>
@@ -96,7 +137,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: 'center',
     justifyContent: 'center',
-    color:'#fff'
+    color: '#fff'
   },
   storiesContainer: {
     width: "auto",
@@ -113,5 +154,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-
+  noPostsText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  loadMoreButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  loadMoreText: {
+    color: '#fff',
+    fontSize: 16,
+  }
 });

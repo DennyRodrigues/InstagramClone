@@ -1,14 +1,14 @@
 import { BASE_API_URL } from "@/constants/Envs";
-import { PostRequest } from "@/types/post";
+import { onGetPostsFlags, PostRequest } from "@/types/post";
 import axios from "axios";
 
 const API_URL_POST = `${BASE_API_URL}/api/v1/post`;
 
 const API_URL_VIEWED = `${BASE_API_URL}/api/v1/viewed/post`;
 
-const getPosts = async () => {
+const getPosts = async (flags?: onGetPostsFlags) => {
   try {
-    return await axios.get(`${API_URL_POST}?viewed=false`);
+    return await axios.get(`${API_URL_POST}?viewed=${flags?.loadOldPosts}`);
   } catch (e) {
     throw e;
   }
