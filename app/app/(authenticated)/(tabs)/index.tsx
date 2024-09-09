@@ -1,4 +1,4 @@
-import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { StoryProfile } from '@/components/StoryProfile';
 import PostHome from '@/components/PostHome';
@@ -53,12 +53,25 @@ export default function TabOneScreen() {
   },]
 
   const { onGetPosts, posts, isShowingOldPosts, setIsShowingOldPosts } = usePostContext();
-  const [isLoadingPosts, setIsLoadingPosts] = useState(false);
+  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
+  const getPosts = async () => {
+    setIsLoadingPosts(true);
+    await onGetPosts({ loadOldPosts: isShowingOldPosts });
+    setIsLoadingPosts(false);
+  };
+
+  const onRefresh = async () => {
+    if (isLoadingPosts === true) {
+      return;
+    }
+    setIsRefreshing(true);
+    await onGetPosts({ loadOldPosts: isShowingOldPosts });
+    setIsRefreshing(false);
+  };
   useEffect(() => {
-    const getPosts = async () => {
-      await onGetPosts({ loadOldPosts: isShowingOldPosts });
-    };
+
     getPosts();
   }, []);
 
@@ -104,7 +117,10 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <IOScrollView onScroll={handleScroll} scrollEventThrottle={16}>
+      <IOScrollView onScroll={handleScroll} scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+      }>
         <View>
           <ScrollView horizontal >
             <View style={styles.storiesContainer}>
