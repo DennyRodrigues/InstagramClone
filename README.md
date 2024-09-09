@@ -1,120 +1,104 @@
-# InstagraClone
+# InstagramClone
 
-InstagramClone is clone of Instagram with some of it's features implemented, built with Spring Boot for the backend and an Expo app for the frontend. The application supports core features like posting photos, following users, and receiving notifications.
+InstagramClone is a clone of Instagram with some of its core features, built with Spring Boot for the backend and an Expo app for the frontend. 
+I built it to keep myself up to date with the expo ecosystem, and to also learn about Spring Boot. 
 
-Table of Contents
-Features
+## Demo
 
-Technologies Used
+[Watch the demo](https://github.com/user-attachments/assets/938cc508-4daa-4204-8acb-71d9a7cf44d6)
 
-Getting Started
+## Table of Contents
 
-  - Prerequisites
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Backend](#running-the-backend)
+  - [Running the Expo App](#running-the-expo-app)
+- [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Contributing](#contributing)
+- [License](#license)
 
-  - Installation
+## Features
 
-  - Running the Backend
+Currently, the app contains the following features:
 
-  - Running the Expo App
+- **Get Posts**: View a feed of posts from users you follow.
+- **Create Post**: Upload and share photos with captions.
+- **Follow Users**: Follow and unfollow users to see their posts in your feed.
+- **Notifications**: Receive notifications for new followers and interactions with your posts.
 
-Project Structure
+## Technologies Used
 
-API Documentation
+### Backend
 
-Contributing
+- **Spring Boot**: The main framework used to build the backend.
+- **Spring Data JPA**: Used for ORM and database interaction.
+- **PostgreSQL**: The database.
+- **JWT**: Used for user authentication and session management.
 
-License
+### Frontend
 
-Features
-Currently the app contains the following features:
+- **React Native**: The JavaScript framework used to build the app's user interface.
+- **Expo**: The framework used for building the React Native app.
+- **TypeScript**: Ensures type safety and improved code quality.
 
-Get Posts: View a feed of posts from users you follow.
+## Getting Started
 
-Create Post: Upload and share photos with captions.
+### Prerequisites
 
-Follow Users: Follow and unfollow users to see their posts in your feed.
+- **Java 17**: Required to run the Spring Boot backend.
+- **Node.js**: Required to run the Expo app.
+- **PostgreSQL**: Required to run the database.
+- **Expo CLI**: For managing and running the Expo app.
 
-Notifications: Receive notifications for new followers and interactions with your posts.
+### Installation
 
-Technologies Used
-Backend
-Spring Boot: The main framework used to build the backend.
+1. Clone the repository:
 
-Spring Data JPA: Used for ORM and database interaction.
-
-PostgreSQL: The database.
-
-JWT: Used for user authentication and session management.
-
-Frontend
-React Native: The JavaScript framework used to build the app's user interface.
-
-Expo: The framework used for building the React native app
-
-TypeScript: Ensures type safety and improved code quality.
-
-Getting Started
-Prerequisites
-Java 17: Required to run the Spring Boot backend.
-
-Node.js: Required for running the Expo app.
-
-PostgreSQL: Required to run the database.
-
-Expo CLI: For managing and running the Expo app.
-
-Installation
-Clone the repository:
     ```bash
-
     git clone https://github.com/DennyRodrigues/InstagramClone.git
-
     cd InstagramClone
-
     ```
 
-Running the Backend
-Set up PostgreSQL database:
+### Running the Backend
 
-Configure application properties: Update src/main/resources/application.properties with your database credentials.
-
-Run the Spring Boot application:
+1. Set up PostgreSQL database.
+2. Configure application properties: Update `src/main/resources/application.properties` with your database credentials.
+3. Run the Spring Boot application:
 
     ```bash
-
     ./mvnw spring-boot:run
-
     ```
 
-Running the Expo App
-Navigate to the frontend directory:
-    ```bash
+### Running the Expo App
 
+1. Navigate to the frontend directory:
+
+    ```bash
     cd app
-
     ```
 
-Install dependencies:
-    ```bash
+2. Install dependencies:
 
+    ```bash
     npm install
-
     ```
 
-Start the Expo app:
+3. Start the Expo app:
+
     ```bash
-
     expo start
-
     ```
 
-Run the app on your device:
-    - Use the Expo Go app on your phone to scan the QR code displayed in the terminal.
+4. Run the app on your device:
+   - Use the Expo Go app on your phone to scan the QR code displayed in the terminal.
 
-Project Structure
-Backend (/backend): Contains the Spring Boot application code.
+## Project Structure
 
-Frontend (/app): Contains the Expo app code.
+- **Backend (`/backend`)**: Contains the Spring Boot application code.
+- **Frontend (`/app`)**: Contains the Expo and React Native code for the mobile app.
 
-API Documentation
-The backend API documentation can be accessed at /swagger-ui.html when the server is running.
+
