@@ -19,3 +19,9 @@ maestro --host 192.168.1.64 studio
 // START emulator
 
 emulator -avd emu
+
+
+// Users
+"lucas_joao"
+lucas@gmail.com
+1234

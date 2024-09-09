@@ -135,7 +135,6 @@ public class NotificationService {
                                                               .map(p -> "Title: " + p.message.getTitle() + ", Error: " + p.ticket.getDetails()
                                                                                                                                  .getError())
                                                               .collect(Collectors.joining(","));
-        LOGGER.error("Received ERROR ticket for " + errorTicketMessages.size() + " messages: " + errorTicketMessagesString);
     }
 
     public void sendPushNotificationToMultipleUsers(List<NotificationTokenProjection> tokensList,

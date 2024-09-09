@@ -8,7 +8,7 @@ const API_URL_VIEWED = `${BASE_API_URL}/api/v1/viewed/post`;
 
 const getPosts = async (flags?: onGetPostsFlags) => {
   try {
-    return await axios.get(`${API_URL_POST}?viewed=${flags?.loadOldPosts}`);
+    return await axios.get(`${API_URL_POST}?viewed=${flags?.loadOldPosts || false}`);
   } catch (e) {
     throw e;
   }
@@ -24,6 +24,7 @@ const createPost = async (post: PostRequest) => {
 
 const markPostAsViewed = async (listOfPosts: number[]) => {
   try {
+    
     return await axios.post(`${API_URL_VIEWED}`, { items: listOfPosts });
   } catch (e) {
     throw e;
