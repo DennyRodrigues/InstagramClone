@@ -34,18 +34,16 @@ Currently, the app contains the following features:
 
 ### Backend
 
-- **Spring Boot**: The main framework used to build the backend.
-- **Spring Data JPA**: Used for ORM and database interaction.
+- **Spring Boot**: The main framework for building the backend.
 - **PostgreSQL**: The database.
-- **JWT**: Used for user authentication and session management.
+- **AWS S3**: For saving images  
 
 ### Frontend
 
-- **React Native**: The JavaScript framework used to build the app's user interface.
-- **Expo**: The framework used for building the React Native app.
-- **TypeScript**: Ensures type safety and improved code quality.
+- **React Native**: 
+- **Expo**: 
+- **TypeScript**:
 
-## Getting Started
 
 ### Prerequisites
 
